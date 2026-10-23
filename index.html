@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AiHub — Your AI Toolkit Hub</title>
+<meta name="description" content="Six helper tools in one place: assistant, summarizer, task planner, eco calculator, creative generator and productivity coach. Works offline, or plug in your own Claude API key.">
+<meta name="theme-color" content="#0f172a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="AiHub">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AiHub — Your AI Toolkit Hub">
+<meta property="og:description" content="Assistant, summarizer, planner, eco calculator, creative generator and productivity coach. Offline-first, optional Claude API key.">
+<meta property="og:image" content="https://jaineil32624.github.io/AiHub/docs/screenshots/social.png">
+<meta property="og:url" content="https://jaineil32624.github.io/AiHub/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AiHub — Your AI Toolkit Hub">
+<meta name="twitter:description" content="Six helper tools in one beautiful hub. Works offline.">
+<meta name="twitter:image" content="https://jaineil32624.github.io/AiHub/docs/screenshots/social.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="icon" href="icons/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<style>
+:root{
+  --s900:#0f172a;--s800:#1e293b;--s700:#334155;--s600:#475569;--s500:#64748b;--s400:#94a3b8;--s300:#cbd5e1;--s200:#e2e8f0;
+  --font:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --c1:#3b82f6;--c2:#22d3ee;--ct:#93c5fd;--ci:#60a5fa;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;min-height:100vh;font-family:var(--font);color:#fff;background:linear-gradient(135deg,var(--s900),var(--s800) 50%,var(--s900));background-attachment:fixed;overflow-x:hidden;line-height:1.5}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+a{color:inherit}
+svg.i{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none;vertical-align:middle}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+:focus-visible{outline:2px solid #60a5fa;outline-offset:2px}
+
+/* background blobs */
+.bg{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.blob{position:absolute;border-radius:50%;filter:blur(64px);opacity:.2;animation:pulse 2s cubic-bezier(.4,0,.6,1) infinite}
+.blob.b1{top:0;left:0;width:24rem;height:24rem;background:rgba(59,130,246,.2)}
+.blob.b2{bottom:0;right:0;width:24rem;height:24rem;background:rgba(34,197,94,.2);animation-delay:1s}
+.blob.b3{top:50%;left:50%;width:18rem;height:18rem;background:rgba(168,85,247,.1);animation-delay:2s}
+@keyframes pulse{50%{opacity:.08}}
+.parallax{position:fixed;inset:0;opacity:.3;pointer-events:none;z-index:0;background-image:radial-gradient(circle at 20% 50%,rgba(59,130,246,.1) 0%,transparent 50%),radial-gradient(circle at 80% 80%,rgba(16,185,129,.1) 0%,transparent 50%);will-change:transform}
+
+/* header */
+header{position:sticky;top:0;z-index:40;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);background:rgba(15,23,42,.6);border-bottom:1px solid rgba(51,65,85,.5)}
+nav.top{max-width:80rem;margin:0 auto;padding:.9rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.brand{display:flex;align-items:center;gap:.75rem;cursor:pointer;text-decoration:none}
+.brand .logo{position:relative;font-size:2rem;color:#60a5fa;display:flex;transition:transform .3s}
+.brand .logo::after{content:"";position:absolute;inset:0;background:#60a5fa;filter:blur(14px);opacity:.2;transition:opacity .3s}
+.brand:hover .logo{transform:scale(1.1)}.brand:hover .logo::after{opacity:.4}
+.brand h1{margin:0;font-size:1.5rem;font-weight:700;background:linear-gradient(90deg,#60a5fa,#4ade80);-webkit-background-clip:text;background-clip:text;color:transparent}
+.navmods{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;justify-content:flex-end}
+.navbtn{padding:.5rem 1rem;border-radius:.5rem;font-size:.875rem;font-weight:500;background:rgba(51,65,85,.5);transition:all .3s;white-space:nowrap}
+.navbtn:hover{background:rgba(71,85,105,.7);transform:scale(1.05)}
+.navbtn.active{background:linear-gradient(90deg,var(--a),var(--b));box-shadow:0 10px 15px -3px color-mix(in srgb,var(--a) 50%,transparent)}
+.tools{display:flex;gap:.35rem;align-items:center}
+.iconbtn{width:2.4rem;height:2.4rem;display:inline-flex;align-items:center;justify-content:center;border-radius:.6rem;font-size:1.15rem;color:var(--s300);transition:background .2s,color .2s,transform .2s;position:relative}
+.iconbtn:hover{background:rgba(51,65,85,.8);color:#fff}
+.iconbtn:active{transform:scale(.92)}
+.modechip{display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .7rem;border-radius:999px;font-size:.75rem;font-weight:600;border:1px solid rgba(71,85,105,.7);background:rgba(15,23,42,.6);color:var(--s300);white-space:nowrap;transition:all .2s}
+.modechip:hover{border-color:#60a5fa;color:#fff}
+.modechip .dot{width:.5rem;height:.5rem;border-radius:50%;background:#facc15;box-shadow:0 0 8px #facc15}
+.modechip.on .dot{background:#4ade80;box-shadow:0 0 8px #4ade80}
+.menubtn{display:none}
+.mobmenu{display:none;background:rgba(30,41,59,.95);border-top:1px solid var(--s700);padding:1rem 1.5rem;animation:slideDown .3s}
+.mobmenu.open{display:grid;gap:.5rem}
+.mobmenu .navbtn{width:100%;padding:.75rem 1rem;display:flex;align-items:center;gap:.5rem;text-align:left}
+.mobmenu .navbtn:hover{transform:none}
+@keyframes slideDown{from{opacity:0;transform:translateY(-1rem)}}
+@media (max-width:1100px){.navmods{display:none}.menubtn{display:inline-flex}}
+
+/* main */
+main{position:relative;z-index:10;max-width:72rem;margin:0 auto;padding:3rem 1.5rem}
+.hero{text-align:center;margin-bottom:3rem}
+.hero h2{margin:0 0 1.5rem;font-size:3.75rem;line-height:1.05;font-weight:700;background:linear-gradient(90deg,#60a5fa,#22d3ee,#4ade80);-webkit-background-clip:text;background-clip:text;color:transparent;animation:fadeUp .7s both}
+.hero p{font-size:1.25rem;color:var(--s300);max-width:42rem;margin:0 auto;animation:fadeUp .7s .1s both}
+.hero .cta{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin-top:1.5rem;animation:fadeUp .7s .2s both}
+.pill{display:inline-flex;align-items:center;gap:.45rem;padding:.55rem 1rem;border-radius:999px;font-size:.875rem;font-weight:600;background:rgba(51,65,85,.55);border:1px solid rgba(71,85,105,.6);transition:all .25s;text-decoration:none}
+.pill:hover{background:rgba(71,85,105,.8);transform:translateY(-2px)}
+.pill.grad{background:linear-gradient(90deg,#3b82f6,#22d3ee);border-color:transparent;box-shadow:0 10px 25px -8px rgba(59,130,246,.6)}
+kbd{font-family:var(--mono);font-size:.72rem;padding:.1rem .4rem;border-radius:.35rem;background:rgba(15,23,42,.8);border:1px solid var(--s600);border-bottom-width:2px;color:var(--s300)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(1.5rem)}}
+@keyframes fadeIn{from{opacity:0}}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:3rem}
+.card{cursor:pointer;animation:fadeUp .7s both;text-align:left;width:100%;padding:0;display:block}
+.card .in{height:100%;background:linear-gradient(135deg,var(--s800),var(--s900));border:1px solid rgba(51,65,85,.5);border-radius:1rem;padding:1.5rem;transition:all .3s;position:relative;overflow:hidden}
+.card:hover .in,.card:focus-visible .in{border-color:var(--s600);box-shadow:0 10px 15px -3px rgba(59,130,246,.2);transform:scale(1.03) translateY(-4px)}
+.card.active .in{border-color:color-mix(in srgb,var(--a) 60%,transparent);box-shadow:0 0 0 1px color-mix(in srgb,var(--a) 40%,transparent),0 10px 30px -10px color-mix(in srgb,var(--a) 50%,transparent)}
+.card .ic{display:inline-flex;padding:.75rem;border-radius:.5rem;background:linear-gradient(135deg,var(--a),var(--b));margin-bottom:1rem;font-size:1.5rem;transition:transform .3s}
+.card:hover .ic{transform:scale(1.1)}
+.card h3{margin:0 0 .5rem;font-size:1.125rem;font-weight:600;transition:color .2s}
+.card:hover h3{color:#93c5fd}
+.card p{margin:0;font-size:.875rem;color:var(--s400);transition:color .2s}
+.card:hover p{color:var(--s300)}
+.card .uses{position:absolute;top:1rem;right:1rem;font-size:.7rem;color:var(--s500);font-weight:600}
+.card .kb{position:absolute;bottom:1rem;right:1rem;opacity:0;transition:opacity .2s}
+.card:hover .kb{opacity:1}
+
+/* panel */
+.panel{scroll-margin-top:5.5rem;animation:slideIn .5s both}
+@keyframes slideIn{from{opacity:0;transform:translateX(1rem)}}
+.box{background:linear-gradient(135deg,var(--s800),var(--s800) 50%,var(--s900));border:1px solid color-mix(in srgb,var(--a) 30%,transparent);border-radius:1.5rem;padding:2rem;box-shadow:0 25px 50px -12px color-mix(in srgb,var(--a) 20%,transparent)}
+.ptitle{display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.ptitle .pi{font-size:2rem;color:var(--ci);display:flex}
+.ptitle h3{margin:0;font-size:1.875rem;font-weight:700;color:var(--ct);flex:1;min-width:0}
+.ptitle .ptools{display:flex;gap:.25rem}
+.pdesc{color:var(--s300);margin:0 0 1.25rem}
+.chips{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem}
+.chip{padding:.35rem .8rem;border-radius:999px;font-size:.8rem;background:rgba(15,23,42,.5);border:1px solid rgba(71,85,105,.6);color:var(--s300);transition:all .2s}
+.chip:hover{border-color:var(--ci);color:#fff;transform:translateY(-1px)}
+.chip.on{background:linear-gradient(90deg,var(--a),var(--b));border-color:transparent;color:#fff}
+.stack{display:grid;gap:1rem}
+textarea,input[type=text],input[type=number],input[type=password],select{width:100%;background:rgba(15,23,42,.5);border:1px solid rgba(71,85,105,.5);border-radius:.75rem;padding:1rem;color:#fff;transition:all .3s;outline:none}
+select,input[type=number],input[type=text],input[type=password]{padding:.75rem}
+select option{background:var(--s800)}
+textarea{resize:vertical;min-height:8rem;padding-bottom:2rem}
+textarea::placeholder,input::placeholder{color:var(--s500)}
+textarea:focus,input:focus,select:focus{border-color:transparent;box-shadow:0 0 0 2px var(--a)}
+.tawrap{position:relative}
+.counter{position:absolute;right:.8rem;bottom:.6rem;font-size:.72rem;color:var(--s500);pointer-events:none;background:rgba(15,23,42,.7);padding:0 .3rem;border-radius:.3rem}
+label.lbl{display:block;font-size:.875rem;font-weight:500;color:var(--s300);margin-bottom:.5rem}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.run{width:100%;background:linear-gradient(90deg,var(--a),var(--b));color:#fff;font-weight:600;padding:.8rem;border-radius:.75rem;display:flex;align-items:center;justify-content:center;gap:.5rem;transition:all .3s;font-size:1rem}
+.run:hover{filter:brightness(.92);transform:scale(1.02)}
+.run:active{transform:scale(.97)}
+.run:disabled{opacity:.5;cursor:wait;transform:none}
+.run .hint{opacity:.7;font-weight:400;font-size:.75rem}
+.spin{width:1.25rem;height:1.25rem;border:2px solid rgba(255,255,255,.2);border-top-color:#fff;border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.out{background:rgba(15,23,42,.5);border:1px solid color-mix(in srgb,var(--a) 30%,transparent);border-radius:.75rem;padding:1.5rem;animation:fadeUp .3s both}
+.outhead{display:flex;align-items:flex-start;justify-content:space-between;gap:.5rem;margin-bottom:.75rem}
+.outhead h4{margin:0;font-weight:600;color:var(--ct);display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.badge{font-size:.68rem;font-weight:600;padding:.15rem .55rem;border-radius:999px;letter-spacing:.02em;white-space:nowrap}
+.badge.local{background:rgba(250,204,21,.12);color:#fde047;border:1px solid rgba(250,204,21,.35)}
+.badge.claude{background:rgba(74,222,128,.12);color:#86efac;border:1px solid rgba(74,222,128,.35)}
+.badge.err{background:rgba(248,113,113,.12);color:#fca5a5;border:1px solid rgba(248,113,113,.35)}
+.outtools{display:flex;gap:.15rem;flex:none;margin-top:-.3rem}
+.outtools .iconbtn{width:2.1rem;height:2.1rem;font-size:1rem;color:var(--s400)}
+.outtools .iconbtn.ok{color:#4ade80}
+.md{color:var(--s300);line-height:1.65;overflow-wrap:anywhere}
+.md p{margin:.0 0 .75rem}.md p:last-child{margin-bottom:0}
+.md h5{font-size:1rem;color:#fff;margin:1rem 0 .4rem}
+.md ul,.md ol{margin:.25rem 0 .75rem;padding-left:1.35rem}
+.md li{margin:.2rem 0}
+.md strong{color:#fff}
+.md code{font-family:var(--mono);font-size:.85em;background:rgba(51,65,85,.6);padding:.1rem .35rem;border-radius:.3rem}
+.md table{border-collapse:collapse;width:100%;margin:.5rem 0;font-size:.9rem}
+.md td,.md th{border:1px solid var(--s700);padding:.4rem .6rem;text-align:left}
+.note{font-size:.8rem;color:var(--s400);margin-top:1rem;padding-top:.75rem;border-top:1px dashed var(--s700)}
+.note.err{color:#fca5a5}
+.note a,.note button.link{color:#93c5fd;text-decoration:underline;padding:0}
+.extra{margin-top:1rem}
+.kwrow{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.75rem}
+.kw{font-size:.75rem;padding:.2rem .6rem;border-radius:999px;background:color-mix(in srgb,var(--a) 18%,transparent);color:var(--ct)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin-bottom:1rem}
+.stat{background:rgba(30,41,59,.7);border:1px solid var(--s700);border-radius:.75rem;padding:.7rem;text-align:center}
+.stat b{display:block;font-size:1.3rem;color:#fff}
+.stat span{font-size:.72rem;color:var(--s400)}
+
+/* history */
+.hist{margin-top:1.25rem}
+.hist summary{cursor:pointer;color:var(--s400);font-size:.85rem;display:flex;align-items:center;gap:.4rem;list-style:none;user-select:none}
+.hist summary::-webkit-details-marker{display:none}
+.hist summary:hover{color:#fff}
+.hist ul{list-style:none;margin:.6rem 0 0;padding:0;display:grid;gap:.4rem}
+.hist li{display:flex;align-items:center;gap:.5rem;background:rgba(15,23,42,.45);border:1px solid rgba(51,65,85,.6);border-radius:.6rem;padding:.5rem .7rem;font-size:.85rem}
+.hist li button.h{flex:1;text-align:left;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--s300)}
+.hist li button.h:hover{color:#fff}
+.hist time{font-size:.7rem;color:var(--s500);white-space:nowrap}
+
+/* planner checklist */
+.steps{list-style:none;padding:0;margin:0;display:grid;gap:.5rem}
+.step{display:flex;gap:.75rem;align-items:flex-start;padding:.75rem .9rem;border-radius:.75rem;background:rgba(30,41,59,.6);border:1px solid var(--s700);cursor:pointer;transition:all .2s}
+.step:hover{border-color:color-mix(in srgb,var(--a) 50%,transparent)}
+.step .box2{width:1.3rem;height:1.3rem;border-radius:.4rem;border:2px solid var(--s500);flex:none;margin-top:.1rem;display:flex;align-items:center;justify-content:center;font-size:.85rem;transition:all .2s;color:transparent}
+.step.done .box2{background:linear-gradient(135deg,var(--a),var(--b));border-color:transparent;color:#fff;animation:pop .3s}
+.step.done .st{text-decoration:line-through;color:var(--s500)}
+.step .st{flex:1;color:var(--s200)}
+.step .st small{display:block;color:var(--s400);font-size:.8rem;margin-top:.15rem}
+.step .tm{font-size:.72rem;font-weight:600;color:var(--ct);background:color-mix(in srgb,var(--a) 15%,transparent);padding:.15rem .5rem;border-radius:999px;white-space:nowrap}
+@keyframes pop{50%{transform:scale(1.3)}}
+.prog{height:.5rem;border-radius:999px;background:var(--s700);overflow:hidden;margin:.25rem 0 1rem}
+.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--a),var(--b));transition:width .4s}
+.proglbl{display:flex;justify-content:space-between;font-size:.8rem;color:var(--s400)}
+
+/* eco */
+.ecobig{display:flex;align-items:baseline;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem}
+.ecobig b{font-size:2.6rem;font-weight:800;background:linear-gradient(90deg,var(--a),var(--b));-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
+.ecobig span{color:var(--s400)}
+.equiv{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin-bottom:1rem}
+.eq{background:rgba(30,41,59,.7);border:1px solid var(--s700);border-radius:.75rem;padding:.75rem;font-size:.82rem;color:var(--s300)}
+.eq .e{font-size:1.4rem;display:block}
+.eq b{color:#fff;font-size:1.05rem}
+.bar{display:grid;grid-template-columns:7.5rem 1fr 4.5rem;gap:.6rem;align-items:center;font-size:.8rem;color:var(--s400);margin:.35rem 0}
+.bar .t{height:.6rem;border-radius:999px;background:var(--s700);overflow:hidden}
+.bar .t i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--a),var(--b));transition:width .6s}
+.bar .t i.ref{background:var(--s500)}
+.bar span:last-child{text-align:right;color:var(--s300)}
+.ecolog{margin-top:1rem}
+.ecolog h5{margin:0 0 .5rem;color:var(--ct);font-size:.95rem;display:flex;justify-content:space-between;align-items:center}
+
+/* pomodoro */
+.pomo{margin-top:1.5rem;display:grid;grid-template-columns:auto 1fr;gap:1.5rem;align-items:center;background:rgba(15,23,42,.45);border:1px solid color-mix(in srgb,var(--a) 25%,transparent);border-radius:1rem;padding:1.25rem}
+.ring{position:relative;width:8.5rem;height:8.5rem}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .tt{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring .tt b{font-size:1.7rem;font-family:var(--mono);font-weight:700}
+.ring .tt span{font-size:.72rem;color:var(--s400);text-transform:uppercase;letter-spacing:.08em}
+.pomo h4{margin:0 0 .3rem;color:var(--ct)}
+.pomo p{margin:0 0 .8rem;font-size:.85rem;color:var(--s400)}
+.pbtns{display:flex;gap:.5rem;flex-wrap:wrap}
+.pbtn{padding:.5rem .9rem;border-radius:.6rem;background:rgba(51,65,85,.7);font-size:.85rem;font-weight:600;display:inline-flex;align-items:center;gap:.4rem;transition:all .2s}
+.pbtn:hover{background:var(--s600)}
+.pbtn.go{background:linear-gradient(90deg,var(--a),var(--b));color:#1f1300}
+.tomatoes{margin-top:.6rem;font-size:.85rem;color:var(--s400);min-height:1.3em}
+
+/* modals */
+.ov{position:fixed;inset:0;z-index:100;background:rgba(2,6,23,.7);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:none;align-items:flex-start;justify-content:center;padding:6vh 1rem 1rem;overflow-y:auto}
+.ov.show{display:flex;animation:fadeIn .2s}
+.modal{width:100%;max-width:34rem;background:linear-gradient(135deg,var(--s800),var(--s900));border:1px solid var(--s700);border-radius:1.25rem;padding:1.5rem;box-shadow:0 25px 50px -12px rgba(0,0,0,.6);animation:fadeUp .25s both;position:relative}
+.modal h3{margin:0 0 1rem;font-size:1.3rem;display:flex;align-items:center;gap:.5rem;padding-right:2rem}
+.modal .x{position:absolute;top:1rem;right:1rem}
+.modal p{color:var(--s300);font-size:.9rem}
+.muted{color:var(--s400)!important;font-size:.82rem!important}
+.keys{display:grid;gap:.5rem}
+.keys div{display:flex;align-items:center;gap:.35rem;font-size:.9rem;color:var(--s300)}
+.keys div span{margin-left:auto;color:var(--s400);text-align:right}
+.dlgrid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.dl{display:flex;flex-direction:column;gap:.2rem;padding:1rem;border-radius:.9rem;background:rgba(51,65,85,.45);border:1px solid var(--s700);text-decoration:none;text-align:left;transition:all .2s}
+.dl:hover{border-color:#60a5fa;transform:translateY(-2px)}
+.dl .e{font-size:1.6rem}
+.dl b{font-size:.95rem}
+.dl small{color:var(--s400);font-size:.78rem}
+.keyrow{display:flex;gap:.5rem}
+.keyrow input{flex:1;font-family:var(--mono);font-size:.85rem}
+.btn{padding:.6rem 1rem;border-radius:.6rem;font-weight:600;font-size:.88rem;background:rgba(51,65,85,.8);display:inline-flex;align-items:center;gap:.4rem;transition:all .2s}
+.btn:hover{background:var(--s600)}
+.btn.pri{background:linear-gradient(90deg,#3b82f6,#22d3ee)}
+.btn.pri:hover{filter:brightness(.92)}
+.btn.dng{background:rgba(127,29,29,.55);color:#fecaca}
+.btn.dng:hover{background:rgba(153,27,27,.8)}
+.btnrow{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1rem}
+.switch{display:flex;align-items:center;gap:.7rem;margin-top:1rem;font-size:.9rem;color:var(--s300);cursor:pointer}
+.switch input{appearance:none;-webkit-appearance:none;width:2.6rem;height:1.5rem;border-radius:999px;background:var(--s600);position:relative;cursor:pointer;transition:background .2s;flex:none;padding:0;border:0}
+.switch input::after{content:"";position:absolute;top:.2rem;left:.2rem;width:1.1rem;height:1.1rem;border-radius:50%;background:#fff;transition:transform .2s}
+.switch input:checked{background:#22c55e}
+.switch input:checked::after{transform:translateX(1.1rem)}
+.keystatus{font-size:.82rem;margin-top:.75rem;min-height:1.2em}
+.keystatus.ok{color:#86efac}.keystatus.bad{color:#fca5a5}
+.warnbox{font-size:.8rem;color:#fde68a;background:rgba(250,204,21,.08);border:1px solid rgba(250,204,21,.25);border-radius:.6rem;padding:.6rem .8rem;margin-top:1rem}
+
+/* command palette */
+.pal{max-width:36rem;padding:0;overflow:hidden}
+.pal .sbox{display:flex;align-items:center;gap:.6rem;padding:.9rem 1rem;border-bottom:1px solid var(--s700);color:var(--s400)}
+.pal .sbox input{border:0;background:none;padding:.2rem;box-shadow:none!important;font-size:1rem}
+.pal ul{list-style:none;margin:0;padding:.5rem;max-height:55vh;overflow-y:auto}
+.pal li{display:flex;align-items:center;gap:.75rem;padding:.65rem .75rem;border-radius:.6rem;cursor:pointer;color:var(--s300);font-size:.92rem}
+.pal li .pic{width:2rem;height:2rem;border-radius:.5rem;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--a,#475569),var(--b,#334155));color:#fff;flex:none}
+.pal li small{margin-left:auto;color:var(--s500);font-size:.75rem}
+.pal li.sel{background:rgba(59,130,246,.18);color:#fff}
+.pal .empty{padding:1rem;color:var(--s500);text-align:center}
+
+/* toast */
+.toasts{position:fixed;left:50%;bottom:1.5rem;transform:translateX(-50%);z-index:200;display:grid;gap:.5rem;pointer-events:none;width:max-content;max-width:calc(100vw - 2rem)}
+.toast{background:rgba(30,41,59,.96);border:1px solid var(--s600);padding:.65rem 1rem;border-radius:.8rem;font-size:.9rem;box-shadow:0 10px 30px rgba(0,0,0,.4);display:flex;gap:.5rem;align-items:center;animation:toastIn .3s both}
+.toast.out{animation:toastOut .3s both}
+@keyframes toastIn{from{opacity:0;transform:translateY(1rem) scale(.95)}}
+@keyframes toastOut{to{opacity:0;transform:translateY(.5rem)}}
+.burst{position:fixed;pointer-events:none;z-index:150;font-size:1rem;animation:burst .8s ease-out forwards}
+@keyframes burst{to{transform:translate(var(--dx),var(--dy)) scale(.4);opacity:0}}
+
+footer{position:relative;z-index:10;margin-top:4rem;border-top:1px solid rgba(51,65,85,.5);background:linear-gradient(to top,var(--s900),transparent);padding:3rem 1.5rem;text-align:center;color:var(--s400)}
+footer p{margin:0 0 .5rem}
+footer .sm{font-size:.875rem}
+footer .links{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:1rem;font-size:.85rem}
+footer .links a,footer .links button{color:var(--s400);text-decoration:none}
+footer .links a:hover,footer .links button:hover{color:#fff}
+
+@media (max-width:767px){
+  nav.top{padding:.75rem 1rem}
+  .modechip .lbl{display:none}
+  main{padding:2rem 1rem}
+  .hero h2{font-size:2.35rem}
+  .hero p{font-size:1.05rem}
+  .grid{grid-template-columns:1fr;gap:.75rem}
+  .card .in{padding:1.1rem 1.25rem;display:grid;grid-template-columns:auto 1fr;column-gap:1rem;align-items:center}
+  .card .ic{margin:0;grid-row:span 2}
+  .card h3{margin:0}
+  .box{padding:1.25rem;border-radius:1.25rem}
+  .ptitle h3{font-size:1.4rem}
+  .row2{grid-template-columns:1fr}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .equiv{grid-template-columns:1fr}
+  .bar{grid-template-columns:5.5rem 1fr 3.8rem}
+  .pomo{grid-template-columns:1fr;justify-items:center;text-align:center}
+  .pbtns{justify-content:center}
+  .dlgrid{grid-template-columns:1fr}
+  .tools .hide-sm{display:none}
+  .card .kb{display:none}
+  .out{padding:1.1rem}
+  .ecobig b{font-size:2.2rem}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="bg" aria-hidden="true"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+<div class="parallax" id="parallax" aria-hidden="true"></div>
+
+<header>
+  <nav class="top">
+    <a class="brand" href="#" id="brand" aria-label="AiHub home"><span class="logo" data-icon="sparkles"></span><h1>AiHub</h1></a>
+    <div class="navmods" id="navmods"></div>
+    <div class="tools">
+      <button class="modechip" id="modeChip" title="AI mode settings"><span class="dot"></span><span class="lbl" id="modeLbl">Offline mode</span></button>
+      <button class="iconbtn hide-sm" id="palBtn" title="Search tools (Ctrl+K)" aria-label="Search tools"><span data-icon="search"></span></button>
+      <button class="iconbtn" id="getAppBtn" title="Get the app" aria-label="Get the app"><span data-icon="download"></span></button>
+      <button class="iconbtn hide-sm" id="helpBtn" title="Shortcuts (?)" aria-label="Help and shortcuts"><span data-icon="help"></span></button>
+      <button class="iconbtn" id="keyBtn" title="Use my own API key" aria-label="API key settings"><span data-icon="key"></span></button>
+      <button class="iconbtn menubtn" id="menuBtn" aria-label="Open menu" aria-expanded="false"><span data-icon="menu"></span></button>
+    </div>
+  </nav>
+  <div class="mobmenu" id="mobmenu"></div>
+</header>
+
+<main>
+  <section class="hero">
+    <h2>Your AI Toolkit Hub</h2>
+    <p>Access powerful AI tools for writing, planning, creativity, and productivity—all in one beautiful, intelligent interface.</p>
+    <div class="cta">
+      <button class="pill grad" id="ctaStart"><span data-icon="sparkles"></span>Start with the Assistant</button>
+      <button class="pill" id="ctaPal"><span data-icon="search"></span>Find a tool <kbd>Ctrl K</kbd></button>
+      <button class="pill" id="ctaKey"><span data-icon="key"></span>Use my own API key</button>
+    </div>
+  </section>
+  <div class="grid" id="grid"></div>
+  <section id="panel" class="panel" aria-live="polite"></section>
+</main>
+
+<footer>
+  <p>Works offline with smart local tools • Plug in your own Claude API key for full AI answers</p>
+  <p class="sm">Experience seamless AI assistance with our unified toolkit</p>
+  <div class="links">
+    <button id="fGet">Get the app</button>
+    <button id="fHelp">Shortcuts</button>
+    <a href="https://github.com/jaineil32624/AiHub" target="_blank" rel="noopener">GitHub</a>
+    <span>Made by Jaineil Rana</span>
+  </div>
+</footer>
+
+<div class="ov" id="ov" role="dialog" aria-modal="true"><div class="modal" id="modal"></div></div>
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<script>
+(() => {
+"use strict";
+/* ============ icons (lucide, ISC) ============ */
+const IC = {
+  sparkles:'<path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/>',
+  book:'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
+  checksq:'<polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>',
+  leaf:'<path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>',
+  palette:'<circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>',
+  zap:'<path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/>',
+  menu:'<line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/>',
+  x:'<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+  copy:'<rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>',
+  check:'<path d="M20 6 9 17l-5-5"/>',
+  send:'<path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/>',
+  key:'<circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/>',
+  download:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/>',
+  share:'<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/>',
+  search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+  help:'<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>',
+  trash:'<path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2"/>',
+  history:'<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/>',
+  refresh:'<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/>',
+  play:'<polygon points="6 3 20 12 6 21 6 3"/>',
+  pause:'<rect x="14" y="4" width="4" height="16" rx="1"/><rect x="6" y="4" width="4" height="16" rx="1"/>',
+  dice:'<rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M16 8h.01"/><path d="M8 8h.01"/><path d="M8 16h.01"/><path d="M16 16h.01"/><path d="M12 12h.01"/>',
+  eraser:'<path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"/><path d="M22 21H7"/><path d="m5 11 9 9"/>',
+  plus:'<path d="M5 12h14"/><path d="M12 5v14"/>',
+  eye:'<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',
+  file:'<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>'
+};
+const svg = n => `<svg class="i" viewBox="0 0 24 24" aria-hidden="true">${IC[n] || ""}</svg>`;
+const hydrateIcons = root => root.querySelectorAll("[data-icon]").forEach(el => { if (!el.firstElementChild) el.innerHTML = svg(el.dataset.icon); });
+
+/* ============ helpers ============ */
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+const pick = a => a[Math.floor(Math.random() * a.length)];
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const cap = s => s ? s[0].toUpperCase() + s.slice(1) : s;
+const words = s => (s.match(/[A-Za-z0-9'’-]+/g) || []);
+const store = {
+  get(k, d) { try { const v = localStorage.getItem("aihub." + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem("aihub." + k, JSON.stringify(v)); } catch (e) {} },
+  del(k) { try { localStorage.removeItem("aihub." + k); } catch (e) {} }
+};
+
+/* ============ modules ============ */
+const MODULES = [
+  { id:"assistant", name:"AI Assistant", title:"AI Assistant", icon:"sparkles", a:"#3b82f6", b:"#22d3ee", ct:"#93c5fd", ci:"#60a5fa",
+    blurb:"Ask anything — math, conversions, emails, how-tos, brainstorms and rewrites.",
+    desc:"Ask me anything and I'll provide thoughtful, detailed responses to help you with any question or task.",
+    ph:"Ask me anything... I'm here to help with questions, ideas, writing, or problem-solving.",
+    btn:"Get Response", busy:"Thinking...", outTitle:"Response", max:600,
+    examples:["What is 18% of 245?","Convert 10 km to miles","Write an email asking for a deadline extension","Ideas for a science fair project","Pros and cons of electric cars","Rewrite: i basically just really think this is very good"],
+    prompt:q => q },
+  { id:"summarizer", name:"Summarizer", title:"Content Summarizer", icon:"book", a:"#a855f7", b:"#f472b6", ct:"#d8b4fe", ci:"#c084fc",
+    blurb:"Paste any article or notes and get the key sentences, keywords and reading time.",
+    desc:"Paste any text and get a concise, clear summary highlighting the key points.",
+    ph:"Paste your text here... Any article, document, or passage you'd like summarized.",
+    btn:"Summarize", busy:"Summarizing...", outTitle:"Summary", max:400, tall:true,
+    examples:["Sample: Photosynthesis","Sample: The Moon","Sample: Remote work"],
+    prompt:(q, o) => o.len === "bullets" ? `Summarize the following text as 5 concise bullet points:\n\n${q}` : `Please provide a concise summary of the following text in ${o.len === "short" ? "1-2" : "2-3"} sentences:\n\n${q}` },
+  { id:"planner", name:"Task Planner", title:"Smart Task Planner", icon:"checksq", a:"#22c55e", b:"#34d399", ct:"#86efac", ci:"#4ade80",
+    blurb:"Turn a goal into a step-by-step checklist with time estimates and saved progress.",
+    desc:"Define your goal and receive a step-by-step action plan with time estimates.",
+    ph:"What's your goal? E.g., 'Learn web development in 3 months' or 'Launch a small business'",
+    btn:"Create Plan", busy:"Planning...", outTitle:"Your Action Plan", max:700,
+    examples:["Learn web development in 3 months","Launch a small business","Run a 5K in 6 weeks","Ace my calculus exam in 2 weeks","Write a short novel this year"],
+    prompt:q => `Create a detailed action plan for the following goal. Include 5-7 specific, actionable steps with time estimates. Format each step as a numbered line starting with a short bold title, followed by the time estimate in parentheses:\n\n${q}` },
+  { id:"environmental", name:"Eco Calculator", title:"Environmental Impact Calculator", icon:"leaf", a:"#14b8a6", b:"#4ade80", ct:"#5eead4", ci:"#2dd4bf",
+    blurb:"Estimate the CO₂ of driving, flying, electricity and water — and keep a footprint log.",
+    desc:"Calculate the environmental impact of daily activities and learn ways to reduce your carbon footprint.",
+    btn:"Calculate Impact", busy:"Calculating...", outTitle:"Environmental Impact Analysis", max:500, custom:true },
+  { id:"creative", name:"Creative Gen", title:"Creative Content Generator", icon:"palette", a:"#f97316", b:"#f87171", ct:"#fdba74", ci:"#fb923c",
+    blurb:"Stories, poems, haiku, slogans and name ideas on any topic — remix until it clicks.",
+    desc:"Spark your creativity with AI-generated stories, ideas, and imaginative content on any topic.",
+    ph:"What would you like to create? E.g., 'A story about time travel' or 'Poetry about nature'",
+    btn:"Generate Content", busy:"Creating...", outTitle:"Generated Content", max:500,
+    examples:["A story about time travel","Poetry about nature","Haiku about the ocean","Slogans for a recycling club","Names for a robot cat"],
+    prompt:q => `Generate creative content based on this prompt: ${q}\n\nProvide an engaging, imaginative response that's 150-200 words.` },
+  { id:"productivity", name:"Productivity", title:"Productivity Assistant", icon:"zap", a:"#eab308", b:"#fb923c", ct:"#fde047", ci:"#facc15",
+    blurb:"Personal tips for focus and procrastination, plus a built-in Pomodoro timer.",
+    desc:"Get personalized productivity tips and strategies to boost your efficiency and accomplish more.",
+    ph:"Describe your productivity challenge. E.g., 'I struggle with procrastination' or 'How to balance multiple projects'",
+    btn:"Get Tips", busy:"Analyzing...", outTitle:"Productivity Tips", max:600,
+    examples:["I struggle with procrastination","How to balance multiple projects","I get distracted by my phone","I'm always tired when studying","I never finish my to-do list"],
+    prompt:q => `Provide productivity tips and strategies for: ${q}\n\nInclude 5-6 actionable suggestions to boost efficiency and reduce procrastination.` }
+];
+const MOD = Object.fromEntries(MODULES.map(m => [m.id, m]));
+const setVars = (el, m) => { el.style.setProperty("--a", m.a); el.style.setProperty("--b", m.b); el.style.setProperty("--ct", m.ct); el.style.setProperty("--ci", m.ci); };
+
+/* ============ state ============ */
+const S = {
+  active: store.get("active", "assistant"),
+  uses: store.get("uses", {}),
+  hist: store.get("hist", {}),
+  drafts: store.get("drafts", {}),
+  sumLen: store.get("sumLen", "medium"),
+  creType: store.get("creType", "auto"),
+  plans: store.get("plans", {}),
+  ecoLog: store.get("ecoLog", []),
+  eco: store.get("eco", { act:"car", amt:"10" }),
+  pomo: store.get("pomo", { done:0, day:"" }),
+  last: {}
+};
+if (!MOD[S.active]) S.active = "assistant";
+const save = k => store.set(k, S[k]);
+
+/* ============ Claude API (optional, user's own key) ============ */
+const API_URL = "https://api.anthropic.com/v1/messages";
+const MODEL = "claude-haiku-4-5";
+const getKey = () => store.get("apiKey", "");
+const useClaude = () => !!getKey() && store.get("useKey", true);
+class ApiError extends Error {}
+async function callClaude(prompt, maxTokens, keyOverride) {
+  const key = keyOverride || getKey();
+  if (!key) throw new ApiError("No API key set.");
+  let res;
+  try {
+    res = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-api-key": key,
+        "anthropic-version": "2023-06-01",
+        "anthropic-dangerous-direct-browser-access": "true"
+      },
+      body: JSON.stringify({ model: MODEL, max_tokens: maxTokens, messages: [{ role: "user", content: prompt }] })
+    });
+  } catch (e) {
+    throw new ApiError("Couldn't reach the Claude API — you may be offline, or a browser extension blocked the request.");
+  }
+  let data = null;
+  try { data = await res.json(); } catch (e) {}
+  if (!res.ok) {
+    const msg = data && data.error && data.error.message ? data.error.message : "";
+    const map = {
+      400: "The API rejected the request" + (msg ? `: ${msg}` : "."),
+      401: "That API key was rejected (401). Check it in Settings → Use my own API key.",
+      403: "This key doesn't have permission for that request (403)" + (msg ? `: ${msg}` : "."),
+      404: "The model or endpoint wasn't found (404)" + (msg ? `: ${msg}` : "."),
+      413: "That text is too long for one request (413). Try a shorter passage.",
+      429: "Rate limit or credit limit reached (429). Wait a moment, or check your plan's usage.",
+      500: "The Claude API had an internal error (500). Try again shortly.",
+      529: "The Claude API is overloaded right now (529). Try again in a minute."
+    };
+    throw new ApiError(map[res.status] || `The API returned an error (${res.status})${msg ? `: ${msg}` : "."}`);
+  }
+  const text = data && Array.isArray(data.content) ? data.content.filter(b => b.type === "text").map(b => b.text).join("\n").trim() : "";
+  if (!text) throw new ApiError("The API replied but sent no text.");
+  return text;
+}
+
+/* ============ tiny markdown renderer (escaped first, so safe) ============ */
+function md(src) {
+  const lines = esc(src).split(/\r?\n/);
+  let html = "", list = null, para = [];
+  const inline = s => s.replace(/`([^`]+)`/g, "<code>$1</code>").replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>").replace(/(^|[^*])\*([^*\s][^*]*)\*/g, "$1<em>$2</em>");
+  const flushP = () => { if (para.length) { html += `<p>${inline(para.join("<br>"))}</p>`; para = []; } };
+  const flushL = () => { if (list) { html += `</${list}>`; list = null; } };
+  let table = null;
+  const flushT = () => { if (table) { html += "<table>" + table.map((r, i) => "<tr>" + r.map(c => i ? `<td>${inline(c)}</td>` : `<th>${inline(c)}</th>`).join("") + "</tr>").join("") + "</table>"; table = null; } };
+  for (const raw of lines) {
+    const l = raw.trimEnd();
+    let m;
+    if (/^\s*\|.*\|\s*$/.test(l)) { flushP(); flushL(); if (/^\s*\|[\s:|-]+\|\s*$/.test(l)) continue; (table = table || []).push(l.trim().slice(1, -1).split("|").map(c => c.trim())); continue; }
+    flushT();
+    if (!l.trim()) { flushP(); flushL(); continue; }
+    if ((m = l.match(/^#{1,6}\s+(.*)/))) { flushP(); flushL(); html += `<h5>${inline(m[1])}</h5>`; continue; }
+    if ((m = l.match(/^\s*[-*•]\s+(.*)/))) { flushP(); if (list !== "ul") { flushL(); html += "<ul>"; list = "ul"; } html += `<li>${inline(m[1])}</li>`; continue; }
+    if ((m = l.match(/^\s*\d+[.)]\s+(.*)/))) { flushP(); if (list !== "ol") { flushL(); html += "<ol>"; list = "ol"; } html += `<li>${inline(m[1])}</li>`; continue; }
+    flushL(); para.push(l);
+  }
+  flushP(); flushL(); flushT();
+  return html;
+}
+
+/* ============ OFFLINE ENGINES ============ */
+const STOP = new Set("a an the and or but if then so of to in on at for from by with about as into over after before is are was were be been being it its this that these those i you he she we they them his her our your their my me us not no do does did have has had can could will would should may might must just very also than too more most such only own same other some any each few all both what which who whom when where why how there here up down out off again further once s t don now one two get got make made like use used using many much".split(" "));
+
+/* --- safe arithmetic --- */
+function evalMath(expr) {
+  const src = expr.replace(/×|x(?=\s*[\d(])/g, "*").replace(/÷/g, "/").replace(/\*\*/g, "^").replace(/,(?=\d{3})/g, "");
+  const toks = src.match(/\d*\.?\d+(?:e[+-]?\d+)?|sqrt|[-+*/^%()]/gi);
+  if (!toks || toks.join("") !== src.replace(/\s+/g, "")) return null;
+  let i = 0;
+  const peek = () => toks[i], next = () => toks[i++];
+  function prim() {
+    const t = next();
+    if (t === "(") { const v = add(); if (next() !== ")") throw 0; return v; }
+    if (t === "-") return -pow();
+    if (t === "+") return pow();
+    if (t && t.toLowerCase() === "sqrt") { if (next() !== "(") throw 0; const v = add(); if (next() !== ")") throw 0; return Math.sqrt(v); }
+    const n = parseFloat(t); if (isNaN(n)) throw 0;
+    if (peek() === "%") { next(); return n / 100; }
+    return n;
+  }
+  function pow() { const b = prim(); if (peek() === "^") { next(); return Math.pow(b, pow()); } return b; }
+  function mul() { let v = pow(); while (peek() === "*" || peek() === "/") { const o = next(); const r = pow(); v = o === "*" ? v * r : v / r; } return v; }
+  function add() { let v = mul(); while (peek() === "+" || peek() === "-") { const o = next(); const r = mul(); v = o === "+" ? v + r : v - r; } return v; }
+  try { const v = add(); if (i !== toks.length || !isFinite(v)) return null; return v; } catch (e) { return null; }
+}
+const fmtNum = n => Math.abs(n) >= 1e12 || (Math.abs(n) < 1e-6 && n !== 0) ? n.toExponential(4) : (+n.toFixed(6)).toLocaleString("en-US", { maximumFractionDigits: 6 });
+
+const UNITS = {
+  km:["length",1000],kilometer:["length",1000],kilometers:["length",1000],m:["length",1],meter:["length",1],meters:["length",1],cm:["length",.01],centimeter:["length",.01],centimeters:["length",.01],mm:["length",.001],
+  mi:["length",1609.344],mile:["length",1609.344],miles:["length",1609.344],ft:["length",.3048],foot:["length",.3048],feet:["length",.3048],in:["length",.0254],inch:["length",.0254],inches:["length",.0254],yd:["length",.9144],yard:["length",.9144],yards:["length",.9144],
+  kg:["mass",1],kilogram:["mass",1],kilograms:["mass",1],g:["mass",.001],gram:["mass",.001],grams:["mass",.001],lb:["mass",.45359237],lbs:["mass",.45359237],pound:["mass",.45359237],pounds:["mass",.45359237],oz:["mass",.028349523],ounce:["mass",.028349523],ounces:["mass",.028349523],
+  l:["vol",1],liter:["vol",1],liters:["vol",1],litre:["vol",1],litres:["vol",1],ml:["vol",.001],gal:["vol",3.785411784],gallon:["vol",3.785411784],gallons:["vol",3.785411784],cup:["vol",.2365882365],cups:["vol",.2365882365],
+  c:["temp","c"],celsius:["temp","c"],f:["temp","f"],fahrenheit:["temp","f"],k:["temp","k"],kelvin:["temp","k"],
+  mph:["speed",.44704],kph:["speed",1/3.6],kmh:["speed",1/3.6],"km/h":["speed",1/3.6],"m/s":["speed",1]
+};
+function convert(q) {
+  const m = q.toLowerCase().replace(/°/g, "").match(/(-?\d*\.?\d+)\s*([a-z/]+)\s+(?:to|in|into|as)\s+([a-z/]+)/);
+  if (!m) return null;
+  const v = parseFloat(m[1]), a = UNITS[m[2]], b = UNITS[m[3]];
+  if (!a || !b || a[0] !== b[0]) return null;
+  let r;
+  if (a[0] === "temp") {
+    const toC = { c:x => x, f:x => (x - 32) * 5 / 9, k:x => x - 273.15 }, fromC = { c:x => x, f:x => x * 9 / 5 + 32, k:x => x + 273.15 };
+    r = fromC[b[1]](toC[a[1]](v));
+  } else r = v * a[1] / b[1];
+  return `**${fmtNum(v)} ${m[2]} = ${fmtNum(+r.toFixed(4))} ${m[3]}**`;
+}
+
+function cleanupText(t) {
+  const fillers = /\b(basically|actually|literally|really|very|just|totally|kind of|sort of|definitely|honestly)\s+/gi;
+  let s = t.replace(fillers, "").replace(/\s{2,}/g, " ").replace(/\bi\b/g, "I").replace(/\s+([,.!?;:])/g, "$1").trim();
+  s = s.replace(/(^|[.!?]\s+)([a-z])/g, (_, p, c) => p + c.toUpperCase());
+  if (!/[.!?]$/.test(s)) s += ".";
+  return s;
+}
+
+function localAssistant(qRaw) {
+  const q = qRaw.trim(), lq = q.toLowerCase();
+  // percentages
+  let m = lq.match(/(-?\d*\.?\d+)\s*%\s*of\s*(-?\d*\.?\d+)/);
+  if (m) { const r = parseFloat(m[1]) / 100 * parseFloat(m[2]); return `**${m[1]}% of ${m[2]} = ${fmtNum(r)}**\n\nHow: ${m[2]} × ${m[1]} ÷ 100 = ${fmtNum(r)}.`; }
+  // conversions
+  const conv = convert(lq); if (conv) return conv + "\n\nConverted locally with standard factors.";
+  // arithmetic
+  const mathPart = lq.replace(/^(what('?s| is)|calculate|compute|solve|evaluate)\s*/,"").replace(/[?=]+\s*$/,"").trim();
+  if (/\d/.test(mathPart) && /^[\d\s.+\-*/^%()x×÷,sqrt]+$/i.test(mathPart)) {
+    const v = evalMath(mathPart); if (v !== null) return `**${mathPart} = ${fmtNum(v)}**`;
+  }
+  // date / time
+  if (/\b(what('?s| is) (the )?(date|time|day)|today'?s date|what day is it)\b/.test(lq)) {
+    const d = new Date(); return `It's **${d.toLocaleDateString(undefined, { weekday:"long", year:"numeric", month:"long", day:"numeric" })}**, ${d.toLocaleTimeString(undefined, { hour:"numeric", minute:"2-digit" })} on this device.`;
+  }
+  // rewrite / proofread
+  m = q.match(/^(?:rewrite|improve|proofread|fix|clean up|polish)\s*(?:this)?\s*[:\-]\s*([\s\S]+)/i);
+  if (m) {
+    const out = cleanupText(m[1]);
+    return `**Cleaned-up version:**\n\n${out}\n\nWhat changed: removed filler words (really, very, just, basically…), fixed capitalization of "I" and sentence starts, tidied spacing and punctuation.`;
+  }
+  // email
+  m = q.match(/\b(?:write|draft|compose)\b.*?\b(?:email|e-mail|letter|message)\b\s*(?:to\s+([\w\s]+?))?\s*(?:about|asking (?:for)?|regarding|for|to)?\s*([\s\S]*)$/i);
+  if (m && /email|e-mail|letter|message/i.test(q)) {
+    const topic = (m[2] || "my request").replace(/[.?!]+$/, "").trim() || "my request";
+    const subj = cap(topic.replace(/^(a|an|the|my)\s+/i, ""));
+    return `**Subject:** ${subj}\n\nHi [Name],\n\nI hope you're doing well. I'm reaching out about ${topic}.\n\n[One or two sentences of context — why this matters and any key detail, like a date or number.]\n\nWould it be possible to [your specific ask]? I'm happy to [offer something: provide more info, meet briefly, adjust the plan] if that helps.\n\nThank you for your time — I really appreciate it.\n\nBest regards,\n[Your name]\n\n**Tips:** keep the ask in one clear sentence, give a deadline if you need a reply by a certain date, and re-read it once out loud before sending.`;
+  }
+  // pros/cons or vs
+  m = lq.match(/(?:pros and cons of|advantages and disadvantages of)\s+(.+?)[?.!]*$/) || lq.match(/^(?:compare\s+)?(.+?)\s+(?:vs\.?|versus|or)\s+(.+?)[?.!]*$/);
+  if (m && (m[2] ? /\bvs\.?\b|versus|compare/.test(lq) : true)) {
+    if (m[2]) {
+      const A = cap(m[1].replace(/^compare\s+/, "")), B = cap(m[2]);
+      return `**${A} vs ${B} — a comparison framework**\n\n| Criteria | ${A} | ${B} |\n|---|---|---|\n| Cost | | |\n| Ease of use / learning curve | | |\n| Speed / performance | | |\n| Long-term value | | |\n| Who it suits best | | |\n\nFill each cell with one fact, then score both 1–5 per row. The higher total usually wins — unless one row is a deal-breaker for you.\n\nOffline mode can't look up facts; add your own API key for a filled-in comparison.`;
+    }
+    const T = m[1];
+    return `**Pros and cons of ${T}**\n\nThink through these angles:\n\n- **Cost:** upfront price vs. long-term savings\n- **Time:** does it save time or add work?\n- **People:** who benefits, who is left out?\n- **Environment:** energy, waste, resources\n- **Risk:** what could go wrong, and how likely is it?\n\nWrite at least two pros and two cons for each angle, then circle the three that matter most to you — that's your answer.\n\nOffline mode gives you the framework; add an API key for specific facts.`;
+  }
+  // ideas / brainstorm
+  m = lq.match(/(?:ideas?|brainstorm|suggestions?)\s+(?:for|about|on)\s+(?:an?\s+)?(.+?)[?.!]*$/);
+  if (m) {
+    const T = m[1];
+    const angles = shuffle(["Make it **smaller**: a pocket-sized or one-day version of " + T, "Make it **social**: turn " + T + " into something a group or club does together", "Add **data**: measure something about " + T + " and chart it", "Flip it: what's the **opposite** of the usual " + T + "?", "Combine " + T + " with **a hobby** you already love", "Solve a **real problem** at your school or neighbourhood through " + T, "Make it **interactive**: an app, game or quiz about " + T, "Go **eco**: a version of " + T + " that saves energy or reduces waste", "Tell a **story**: a short video or comic explaining " + T, "**Teach it**: a 5-minute lesson on " + T + " for younger students"]).slice(0, 7);
+    return `**Brainstorm: ${T}**\n\n` + angles.map((a, i) => `${i + 1}. ${a}`).join("\n") + "\n\nPick two, mash them together, and you often get the most original idea. Press the button again for a fresh set.";
+  }
+  // how to
+  m = lq.match(/^(?:how (?:do i|can i|to|should i|do you))\s+(.+?)[?.!]*$/);
+  if (m) {
+    const T = m[1];
+    return `**How to ${T} — a starter plan**\n\n1. **Define done:** write one sentence describing what success looks like.\n2. **Learn the basics:** spend 30–60 minutes on a beginner guide or video about how to ${T}.\n3. **Break it down:** list 3–5 smaller steps; the first should take under 15 minutes.\n4. **Do the first step today** — momentum matters more than perfection.\n5. **Get feedback:** show a friend, teacher or online community and ask one specific question.\n6. **Repeat and refine:** schedule short sessions and track progress.\n\nWant a dated checklist? Paste this goal into the **Task Planner**.`;
+  }
+  // explain / what is
+  m = lq.match(/^(?:what (?:is|are)|who (?:is|was)|explain|define|tell me about)\s+(.+?)[?.!]*$/);
+  if (m) {
+    const T = m[1];
+    return `Offline mode can't look up facts about **${T}**, but here's a quick way to understand any topic:\n\n- **One-line definition:** what is ${T}, in 15 words or less?\n- **Why it matters:** who uses it or is affected by it?\n- **How it works:** the 2–3 key parts or steps\n- **Example:** one real-world case\n- **Common confusion:** what is it often mixed up with?\n\nTurn on your own API key (key icon, top-right) and ask again for a full explanation.`;
+  }
+  // count words
+  if (/^(count|word count)/.test(lq)) { const t = q.replace(/^[^:]*:?/, ""); return `**${words(t).length} words**, ${t.replace(/\s/g, "").length} characters (no spaces).`; }
+  // greeting
+  if (/^(hi|hello|hey|yo|sup|good (morning|afternoon|evening))\b/.test(lq)) return "Hey! 👋 I'm running in **offline mode**, so I'm best at:\n\n- Math & percentages — `18% of 245`, `(3+4)^2`\n- Unit conversions — `10 km to miles`, `72 f to c`\n- Email drafts — `write an email about…`\n- Brainstorms — `ideas for…`\n- How-to plans, pros & cons, comparisons, rewrites\n\nAdd your own Claude API key for open-ended answers.";
+  return `I'm in **offline mode**, so I can't answer open-ended questions like that one yet. Here's what I can do right now:\n\n- **Math** — \`245 * 0.18\`, \`sqrt(144) + 3^2\`\n- **Percentages** — \`15% of 80\`\n- **Conversions** — \`5 miles to km\`, \`100 f to c\`, \`2 cups to ml\`\n- **Emails** — \`write an email asking for…\`\n- **Brainstorms** — \`ideas for a birthday party\`\n- **How-tos** — \`how do I start a podcast\`\n- **Comparisons** — \`python vs javascript\`, \`pros and cons of homework\`\n- **Rewrites** — \`rewrite: your text\`\n\nFor full AI answers, tap the **key icon** and add your own Claude API key.`;
+}
+
+/* --- extractive summarizer --- */
+function splitSentences(t) {
+  return (t.replace(/\s+/g, " ").match(/[^.!?]+(?:[.!?]+["')\]]*|$)/g) || []).map(s => s.trim()).filter(s => words(s).length >= 3);
+}
+function summarize(text, len) {
+  const sents = splitSentences(text);
+  const toks = words(text.toLowerCase()).filter(w => w.length > 2 && !STOP.has(w));
+  const freq = {}; toks.forEach(w => freq[w] = (freq[w] || 0) + 1);
+  const maxF = Math.max(1, ...Object.values(freq));
+  const keywords = Object.entries(freq).sort((a, b) => b[1] - a[1] || b[0].length - a[0].length).slice(0, 8).map(e => e[0]);
+  const scored = sents.map((s, i) => {
+    const ws = words(s.toLowerCase()).filter(w => !STOP.has(w));
+    const sc = ws.reduce((a, w) => a + (freq[w] || 0) / maxF, 0) / Math.pow(Math.max(ws.length, 1), .6);
+    return { s, i, sc: sc * (i === 0 ? 1.35 : i === 1 ? 1.1 : 1) };
+  });
+  const n = len === "short" ? 2 : len === "bullets" ? 5 : 3;
+  const top = scored.slice().sort((a, b) => b.sc - a.sc).slice(0, Math.min(n, sents.length)).sort((a, b) => a.i - b.i).map(o => o.s);
+  const wc = words(text).length;
+  const sumWc = words(top.join(" ")).length;
+  return {
+    text: len === "bullets" ? top.map(s => "- " + s).join("\n") : top.join(" "),
+    keywords, stats: { words: wc, sentences: sents.length, read: Math.max(1, Math.round(wc / 230)), saved: wc ? Math.max(0, Math.round(100 - sumWc / wc * 100)) : 0 }
+  };
+}
+const SAMPLES = {
+  "Sample: Photosynthesis": "Photosynthesis is the process plants, algae and some bacteria use to turn light energy into chemical energy. It takes place mainly in the leaves, inside tiny structures called chloroplasts. Chloroplasts contain chlorophyll, a green pigment that absorbs red and blue light and reflects green light, which is why most plants look green. During photosynthesis, the plant takes in carbon dioxide from the air through small pores called stomata and absorbs water through its roots. Using the energy from sunlight, it combines these into glucose, a sugar that stores energy, and releases oxygen as a by-product. The glucose can be used right away for energy or stored as starch for later. Photosynthesis is essential for life on Earth because it produces the oxygen most organisms breathe and forms the base of nearly every food chain. Scientists also study it closely to design better solar cells and to understand how forests and oceans absorb carbon dioxide from the atmosphere.",
+  "Sample: The Moon": "The Moon is Earth's only natural satellite and the fifth largest moon in the solar system. It formed about 4.5 billion years ago, most likely from debris left over after a Mars-sized body collided with the young Earth. The Moon is tidally locked, which means the same side always faces our planet. Its gravity drives the ocean tides and slowly lengthens Earth's day. The surface is covered in craters, dark plains of ancient lava called maria, and a layer of fine dust known as regolith. Twelve astronauts walked on the Moon during NASA's Apollo missions between 1969 and 1972, bringing back hundreds of kilograms of rock samples. Today space agencies plan to return with crewed missions and long-term bases near the lunar south pole, where water ice is hidden in permanently shadowed craters. That ice could one day provide drinking water, breathable oxygen and even rocket fuel for explorers heading deeper into space.",
+  "Sample: Remote work": "Remote work has grown rapidly over the last decade as internet speeds improved and collaboration tools became easier to use. Many employees say working from home saves them hours of commuting each week and gives them more flexibility to balance family responsibilities. Companies can benefit too, because they can hire talented people from anywhere and often spend less on office space. However, remote work also brings challenges. Some workers feel isolated and miss casual conversations with colleagues, which can make it harder to build trust and share ideas. Managers sometimes struggle to measure performance fairly when they cannot see their teams in person. Clear communication, regular video check-ins and well-defined goals help many teams stay connected. As a result, a large number of organizations now use a hybrid model, where people split their time between home and the office to get the benefits of both."
+};
+
+/* --- planner --- */
+const PLAN_T = {
+  learn: { kw:/\b(learn|study|master|understand|get better at|improve at|practice|course|language|code|coding|program)\b/, steps:[
+    ["Set a clear target", "Write what you'll be able to do at the end, e.g. 'build and publish 3 small projects'.", .03],
+    ["Pick one core resource", "Choose a single course, book or tutorial series and commit to it.", .04],
+    ["Learn the fundamentals", "Daily 30–60 minute sessions on the basics; take short notes in your own words.", .28],
+    ["Build a small project", "Apply what you learned right away — tiny and finished beats big and abandoned.", .2],
+    ["Get feedback and fill gaps", "Share your work, ask questions, revisit weak topics with practice problems.", .15],
+    ["Level up with a bigger project", "Combine several skills into something you're proud to show.", .22],
+    ["Review and show it off", "Summarize what you learned, update your portfolio/résumé, plan the next goal.", .08]]},
+  business: { kw:/\b(business|startup|launch|company|shop|store|brand|sell|product|side hustle|app|website|channel|podcast)\b/, steps:[
+    ["Validate the idea", "Talk to 10 potential customers; write down the problem they'd pay to solve.", .12],
+    ["Research the market", "List 3–5 competitors, their prices and what people complain about.", .1],
+    ["Define your offer & budget", "One-sentence pitch, price point, startup costs and a simple monthly budget.", .1],
+    ["Build a minimum version", "Create the smallest product, service or page that delivers the core value.", .28],
+    ["Handle the basics", "Name, accounts, any permits/registration, simple bookkeeping sheet.", .08],
+    ["Launch to a small audience", "Friends, local groups, social posts — collect feedback and first sales.", .17],
+    ["Measure and improve", "Track sales, costs and feedback weekly; fix the biggest issue first.", .15]]},
+  fitness: { kw:/\b(run|5k|10k|marathon|fit|fitness|gym|workout|exercise|lose weight|weight|muscle|healthy|health|swim|bike|sleep)\b/, steps:[
+    ["Check your starting point", "Record a baseline (time, distance, weight or reps) and any health limits.", .03],
+    ["Make a weekly schedule", "3–4 sessions per week at fixed times; put them in your calendar.", .03],
+    ["Build the base", "Easy, consistent sessions — you should be able to talk while training.", .3],
+    ["Increase gradually", "Add about 10% per week in distance, weight or time; keep one rest day.", .3],
+    ["Fuel and recover", "Water, protein, sleep 8+ hours; stretch and foam-roll after sessions.", .1],
+    ["Test yourself", "Do a practice run/test at ~80% of the goal and adjust the plan.", .12],
+    ["Taper and hit the goal", "Ease off slightly, then go for it — and celebrate!", .12]]},
+  exam: { kw:/\b(exam|test|quiz|sat|act|ap|final|midterm|grade|calculus|chemistry|physics|biology|history|math)\b/, steps:[
+    ["Map the syllabus", "List every topic that will be tested and rate your confidence 1–5.", .05],
+    ["Gather materials", "Notes, textbook chapters, past papers, and a formula/fact sheet.", .05],
+    ["Study weak topics first", "Short focused sessions with active recall — close the book and explain it.", .35],
+    ["Practice with real questions", "Timed past papers or problem sets; mark them honestly.", .25],
+    ["Review mistakes", "Keep an error log and re-do every question you got wrong.", .15],
+    ["Final review & rest", "Light review of your summary sheet, early night, good breakfast.", .15]]},
+  writing: { kw:/\b(write|writing|novel|book|essay|story|blog|article|paper|thesis|screenplay|poem)\b/, steps:[
+    ["Choose the core idea", "Write a one-sentence premise or thesis and who it's for.", .05],
+    ["Outline", "Break it into sections or chapters with 2–3 bullet points each.", .1],
+    ["Set a daily word target", "Small and steady — e.g. 300–500 words a day, same time each day.", .03],
+    ["Write the first draft", "Don't edit while drafting; just get to the end.", .45],
+    ["Rest, then revise", "Take a short break, then fix structure first and sentences second.", .2],
+    ["Get feedback", "Share with 2–3 readers and ask what confused or bored them.", .1],
+    ["Polish and publish", "Proofread, format, and share or submit it.", .07]]},
+  general: { kw:/./, steps:[
+    ["Clarify the goal", "Make it specific and measurable: what, by when, and how you'll know it's done.", .05],
+    ["Research and gather resources", "Find guides, tools, people or money you'll need.", .12],
+    ["Break it into milestones", "3–4 checkpoints, each with a date.", .05],
+    ["Start with the first milestone", "Daily or every-other-day progress; track it somewhere visible.", .3],
+    ["Review progress", "Weekly 10-minute check: what worked, what didn't, what's next.", .08],
+    ["Push through the middle", "Tackle the hardest part; ask for help early if stuck.", .3],
+    ["Finish and reflect", "Complete the last milestone, celebrate, and note lessons learned.", .1]]}
+};
+function parseDays(t) {
+  const m = t.toLowerCase().match(/(\d+(?:\.\d+)?|a|an|one|two|three|four|five|six|seven|eight|nine|ten|twelve)\s*(day|week|month|year)s?/);
+  const map = { a:1, an:1, one:1, two:2, three:3, four:4, five:5, six:6, seven:7, eight:8, nine:9, ten:10, twelve:12 };
+  if (m) { const n = map[m[1]] || parseFloat(m[1]); return Math.max(1, Math.round(n * { day:1, week:7, month:30, year:365 }[m[2]])); }
+  if (/this year|next year/.test(t)) return 365;
+  if (/this month|next month/.test(t)) return 30;
+  if (/this week|next week/.test(t)) return 7;
+  if (/tomorrow/.test(t)) return 1;
+  return null;
+}
+const fmtDur = d => d < 1 ? `${Math.max(1, Math.round(d * 8))} hr` : d < 7 ? `${Math.round(d)} day${Math.round(d) > 1 ? "s" : ""}` : d < 30 ? `${Math.round(d / 7 * 2) / 2} wk` : `${Math.round(d / 30 * 2) / 2} mo`;
+function makePlan(goal) {
+  const lg = goal.toLowerCase();
+  const kind = ["exam", "fitness", "writing", "business", "learn"].find(k => PLAN_T[k].kw.test(lg)) || "general";
+  const days = parseDays(lg) || { learn:60, business:90, fitness:42, exam:14, writing:90, general:30 }[kind];
+  let start = 0;
+  const steps = PLAN_T[kind].steps.map(([t, d, f]) => { const s = { t, d, dur: fmtDur(days * f), at: Math.round(start) }; start += days * f; return s; });
+  const text = `**Goal:** ${goal}\n**Timeframe:** about ${fmtDur(days)} (${days} days) · plan type: ${kind}\n\n` + steps.map((s, i) => `${i + 1}. **${s.t}** (${s.dur}) — ${s.d}`).join("\n") + "\n\nTick steps off below — your progress is saved on this device.";
+  return { kind, days, steps, text };
+}
+function stepsFromText(text) {
+  const out = [];
+  text.split(/\n/).forEach(l => { const m = l.match(/^\s*(?:\d+[.)]|[-*•]|step\s*\d+:?)\s+(.+)/i); if (m) { const raw = m[1].replace(/\*\*/g, ""); const tm = raw.match(/\(([^)]*(?:min|hour|hr|day|week|wk|month|mo)[^)]*)\)/i); const parts = raw.replace(/\([^)]*\)/, "").split(/\s[—–:-]\s|:\s/); out.push({ t: parts[0].trim().slice(0, 90), d: parts.slice(1).join(" — ").trim(), dur: tm ? tm[1] : "" }); } });
+  return out.slice(0, 10);
+}
+
+/* --- eco --- */
+const ECO = {
+  car:    { label:"Car Driving", unit:"miles driven", factor:.393, emoji:"🚗", note:"avg US gasoline car ≈ 0.39 kg CO₂ per mile",
+            tips:["Combine errands into one trip — cold starts burn the most fuel.","Keep tires properly inflated (up to 3% better mileage).","Carpool, bike or walk for trips under 2 miles.","Drive smoothly: hard acceleration can cut efficiency 15–30%.","Next car? A hybrid or EV can halve or better these emissions."] },
+  flight: { label:"Air Travel", unit:"miles flown", factor:.2, emoji:"✈️", note:"economy seat ≈ 0.2 kg CO₂ per passenger-mile (incl. typical uplift varies)",
+            tips:["Take the train or bus for trips under ~500 miles.","Fly direct — takeoffs and landings use the most fuel.","Choose economy: business seats carry ~3× the footprint.","Pack light; every kilogram adds fuel burn.","Replace a meeting trip with a video call when you can."] },
+  energy: { label:"Electricity Usage", unit:"kWh used", factor:.37, emoji:"⚡", note:"US grid average ≈ 0.37 kg CO₂ per kWh",
+            tips:["Switch to LED bulbs — they use ~75% less energy.","Unplug idle chargers and use smart power strips.","Run laundry on cold and full loads only.","Set the thermostat 1–2°F closer to outdoors.","Ask about a green-power plan or community solar."] },
+  water:  { label:"Water Consumption", unit:"gallons used", factor:.0045, emoji:"💧", note:"treating, pumping & partly heating water ≈ 4.5 g CO₂ per gallon",
+            tips:["Shorten showers by 2 minutes — saves ~5 gallons each time.","Fix dripping taps; one drip/second wastes 3,000 gal/year.","Install a low-flow shower head.","Only run the dishwasher when it's full.","Water plants early morning to reduce evaporation."] }
+};
+const DAILY_AVG = 41; // kg CO2 per person per day, US average (~15 t/yr)
+function ecoCalc(act, amt) {
+  const e = ECO[act], kg = Math.max(0, amt) * e.factor;
+  const text = `**${e.emoji} ${e.label}: ${fmtNum(+amt)} ${e.unit}**\n\nEstimated footprint: **${kg < 10 ? kg.toFixed(2) : Math.round(kg).toLocaleString()} kg CO₂e** (${e.note}).\n\nThat's about:\n- ${fmtNum(+(kg / 21.8).toFixed(2))} tree-years of carbon absorption\n- ${Math.round(kg / .00822).toLocaleString()} smartphone charges\n- ${(kg / DAILY_AVG * 100).toFixed(0)}% of an average American's daily footprint\n\n**Ways to reduce it:**\n` + shuffle(e.tips).slice(0, 4).map(t => "- " + t).join("\n");
+  return { kg, text, e };
+}
+
+/* --- creative --- */
+const CRE = {
+  adj:["shimmering","forgotten","electric","quiet","impossible","golden","restless","glass","midnight","wild","tiny","ancient","neon","gentle","stormy"],
+  place:["a rooftop garden","the last train of the night","a library that never closes","a city floating above the clouds","a lighthouse at the edge of the map","an abandoned space station","a market that only opens at dawn","the bottom of a frozen lake","a school hallway at 3 a.m.","a forest where the trees hum"],
+  hero:["a curious inventor named Mira","a retired astronaut","a twelve-year-old with a broken compass","a robot who collects lost socks","a street musician","a nervous dragon","a scientist who talks to plants","two best friends on summer break"],
+  twist:["the map was drawing itself","every clock in town had stopped at 4:44","the stranger knew their name","the answer had been in their pocket all along","the moon blinked","yesterday started happening again","the door led back to the beginning — but changed"],
+  feel:["wonder","hope","courage","nostalgia","joy","calm","mystery"],
+  verbs:["whispers","glows","drifts","echoes","dances","waits","burns","sings","unfolds","wanders"]
+};
+function topicOf(q) {
+  return q.replace(/^\s*(?:write|create|make|generate|give me|i want)?\s*(?:me\s+)?(?:an?|some|\d+)?\s*(?:short\s+)?(?:story|stories|poem|poems|poetry|haiku|haikus|slogans?|taglines?|names?|ideas?|song|lyrics)?\s*(?:about|on|of|for)?\s*/i, "").replace(/[.?!]+$/, "").trim() || "something wonderful";
+}
+function detectType(q) {
+  const l = q.toLowerCase();
+  if (/haiku/.test(l)) return "haiku";
+  if (/poem|poetry|verse|song|lyrics/.test(l)) return "poem";
+  if (/slogan|tagline|motto|catchphrase/.test(l)) return "slogan";
+  if (/\bnames?\b|title/.test(l)) return "names";
+  if (/ideas?|brainstorm/.test(l)) return "ideas";
+  return "story";
+}
+const titleCase = s => s.replace(/\b\w/g, c => c.toUpperCase());
+function creative(q, typeSel) {
+  const type = typeSel === "auto" ? detectType(q) : typeSel;
+  const T = topicOf(q);
+  const GENERIC = /^(club|team|project|group|company|business|story|poem|thing|things|stuff|something|day|night|people)$/i;
+  const tw = (words(T).filter(w => !STOP.has(w.toLowerCase()) && !GENERIC.test(w))[0] || words(T).filter(w => !STOP.has(w.toLowerCase())).pop() || T).toLowerCase();
+  if (type === "haiku") {
+    const L1 = [`${cap(pick(CRE.adj))} ${tw} at dawn`, `Soft ${tw}, silver light`, `Above the ${tw}`, `${cap(tw)} in the rain`, `Small ${tw}, wide sky`, `The ${tw} hums low`];
+    const L2 = ["the world holds its breath and waits", "a slow wind carries the sound", "small waves fold into silence", "light spills over everything", "a bird crosses the bright edge", "the old clock forgets the hour", "footprints fill with morning gold"];
+    const L3 = ["and then it is gone", "we begin again", "the heart remembers", "summer in one breath", "nothing left to say", "home is here, for now", "the stars lean closer"];
+    const a = shuffle(L1), b = shuffle(L2), c = shuffle(L3);
+    return `**${titleCase(T)} — three haiku**\n\n` + [0, 1, 2].map(i => `${a[i]}\n${cap(b[i])}\n${cap(c[i])}`).join("\n\n") + "\n\n*(5-7-5 is approximate — count and tweak the syllables to make it yours.)*";
+  }
+  if (type === "poem") {
+    const a = pick(CRE.adj), b = pick(CRE.adj), f = pick(CRE.feel), v1 = pick(CRE.verbs), v2 = pick(CRE.verbs);
+    return `**Ode to ${titleCase(T)}**\n\nThere is a ${a} kind of ${tw} that ${v1}\nbeneath the noise of ordinary days,\na thread of ${f} the busy world forgets\nuntil it catches light and starts to blaze.\n\nI found it once in ${pick(CRE.place)},\nas ${b} as a secret, soft as rain;\nit ${v2} where the careful maps run out\nand calls the wandering parts of us by name.\n\nSo here's to ${T} — the small, the vast, the true,\nthe ${pick(CRE.adj)} spark we carry, old and new.`;
+  }
+  if (type === "slogan") {
+    const base = titleCase(tw);
+    const S = shuffle([`${base}: small change, big difference.`, `Think ${base}. Act now.`, `Powered by ${T}, driven by you.`, `Less waste, more ${tw}.`, `${base} today, a better tomorrow.`, `Join the ${tw} movement.`, `Every bit of ${tw} counts.`, `${base} — because the future is listening.`, `Do good. Feel good. ${base}.`, `Make ${tw} your superpower.`]).slice(0, 6);
+    return `**Slogans for ${T}**\n\n` + S.map((s, i) => `${i + 1}. ${s}`).join("\n") + "\n\nTip: the best slogans are under 7 words and easy to say out loud. Hit **Remix** for more.";
+  }
+  if (type === "names") {
+    const roots = [tw.slice(0, 4), tw, cap(tw)];
+    const N = shuffle([`${cap(roots[0])}ly`, `${cap(tw)}ify`, `${pick(["Nova", "Pixel", "Echo", "Byte", "Comet", "Mochi", "Sprocket"])} ${cap(tw)}`, `${cap(roots[0])}o`, `The ${cap(pick(CRE.adj))} ${cap(tw)}`, `${pick(["Captain", "Professor", "Sir", "Lady"])} ${cap(roots[0])}`, `${cap(tw)}Hub`, `${cap(roots[0])}zilla`, `${pick(["Bolt", "Whisk", "Ziggy", "Nimbus", "Orbit", "Biscuit", "Juno"])}`, `${cap(roots[0])}tron`]).slice(0, 8);
+    return `**Name ideas: ${T}**\n\n` + N.map(n => `- ${n}`).join("\n") + "\n\nSay each out loud — the one that makes you smile is usually the winner.";
+  }
+  if (type === "ideas") {
+    const I = shuffle([`A ${pick(CRE.adj)} ${tw} museum where visitors can touch everything`, `A comic series starring ${pick(CRE.hero)} and ${T}`, `A one-week challenge: ${T} every day, documented in photos`, `An app that turns ${T} into a daily mini-game`, `A school club or event built around ${T}`, `A time-lapse video showing ${T} from start to finish`, `A podcast episode interviewing someone who loves ${T}`, `A board game where ${T} is the secret winning strategy`, `A mural or poster series about the future of ${T}`]).slice(0, 6);
+    return `**Creative ideas: ${T}**\n\n` + I.map((s, i) => `${i + 1}. ${s}`).join("\n");
+  }
+  const hero = pick(CRE.hero), place = pick(CRE.place), twist = pick(CRE.twist), adj = pick(CRE.adj), f = pick(CRE.feel);
+  return `**The ${titleCase(adj)} ${words(T).length <= 3 ? titleCase(T.replace(/^(a|an|the)\s+/i, "")) : titleCase(tw)}**\n\nNobody in town believed in ${T} anymore — nobody except ${hero}. Every evening they climbed to ${place} and waited, notebook open, for a sign.\n\nOn the ninth night it came: a ${adj} flicker at the edge of sight, like a thought you almost remember. ${cap(hero.replace(/^(a|an|two)\s/, "the "))} followed it through narrow streets and over a fence, heart thudding, until the world went perfectly still. That was when they realized ${twist}.\n\nIt should have been frightening. Instead it felt like ${f}. Everything they had wondered about ${T} — every question, every late-night sketch — suddenly fit together like puzzle pieces.\n\nBy morning, the flicker was gone. But in the notebook, in handwriting that wasn't quite their own, was a single new line: *"You were right to keep looking. Come back tomorrow — there's more."*\n\nAnd of course, they did.`;
+}
+
+/* --- productivity --- */
+const TIPS = {
+  procrastination:{ kw:/procrast|put off|delay|lazy|motivat|start/, tips:["**Two-minute rule:** if a task takes under 2 minutes, do it now; otherwise just do the first 2 minutes.","**Shrink the first step** until it feels almost silly — 'open the doc and write the title'.","**Temptation bundling:** pair a task you avoid with something you enjoy (a playlist, a favorite drink).","**Name the feeling:** procrastination is usually about avoiding a feeling (boredom, fear of failure), not the task.","**Public commitment:** tell a friend what you'll finish by when, and send them proof."] },
+  focus:{ kw:/focus|distract|phone|social|concentrat|attention|scroll|youtube|tiktok|game/, tips:["**Phone in another room** while you work — out of sight genuinely reduces checking.","**Single-tab rule:** close everything except what this task needs.","**Pomodoro:** 25 minutes on, 5 off; use the timer below.","**Batch notifications:** check messages at set times (e.g. on the hour) instead of instantly.","**Write distractions down** on a 'later' list instead of acting on them."] },
+  projects:{ kw:/project|multiple|balance|juggl|priorit|many things|overwhelm|busy|deadline/, tips:["**Eisenhower matrix:** sort tasks into urgent/important and do the important-not-urgent ones before they become emergencies.","**One top priority per day** — write it on a sticky note and finish it first.","**Time-block** each project into fixed slots in your calendar.","**Weekly review:** every Sunday, list open projects and pick the next physical action for each.","**Say no (or not now)** to new commitments until something finishes."] },
+  energy:{ kw:/tired|energy|sleep|exhaust|burn|fatigue|sluggish/, tips:["**Protect sleep:** 8–9 hours, consistent bed and wake times — even on weekends.","**Match tasks to energy:** hardest work in your peak hours, admin when you're low.","**Move every hour:** a 5-minute walk boosts alertness more than another coffee.","**Water and a real snack** — mild dehydration feels a lot like tiredness.","**Stop screens 30–60 minutes before bed** for faster sleep."] },
+  study:{ kw:/study|exam|test|homework|learn|school|class|revis|memor/, tips:["**Active recall:** close the book and write what you remember, then check.","**Spaced repetition:** review after 1 day, 3 days and a week.","**Teach it:** explain the topic out loud as if to a younger student.","**Practice questions > re-reading** — testing yourself is the most effective study method.","**Study in short blocks** with breaks; quality beats marathon sessions."] },
+  todo:{ kw:/to-?do|list|finish|never done|unfinished|task|organi/, tips:["**Limit today's list to 3 must-dos** plus a few nice-to-dos.","**Write tasks as actions** starting with a verb: 'email Ms. Lee about project', not 'project'.","**Estimate time** next to each task — lists fail when they hold 12 hours of work for a 3-hour evening.","**Move unfinished tasks deliberately**: reschedule, delegate or delete.","**Celebrate done items** — keep a 'done list' to see real progress."] }
+};
+const GENERIC_TIPS = ["**Plan tomorrow tonight:** 5 minutes writing your top 3 tasks makes mornings easier.","**Work in sprints** of focused time with real breaks.","**Track one habit** visibly — a calendar with Xs builds momentum.","**Start with the hardest task** while your energy is highest ('eat the frog').","**Set up your space** so the right action is the easiest one."];
+function prodTips(q) {
+  const l = q.toLowerCase();
+  const hits = Object.entries(TIPS).filter(([, v]) => v.kw.test(l));
+  let pool = hits.flatMap(([, v]) => v.tips);
+  pool = shuffle(pool).slice(0, 5);
+  if (pool.length < 6) pool = pool.concat(shuffle(GENERIC_TIPS).slice(0, 6 - pool.length));
+  const topics = hits.map(h => h[0]);
+  return `**Focus areas:** ${topics.length ? topics.join(", ") : "general productivity"}\n\n` + pool.map((t, i) => `${i + 1}. ${t}`).join("\n") + "\n\n**Try this now:** pick one tip, set the Pomodoro timer below for 25 minutes, and start the smallest part of your task.";
+}
+
+/* ============ UI: nav, grid ============ */
+const navmods = $("navmods"), mobmenu = $("mobmenu"), grid = $("grid"), panel = $("panel");
+function buildNav() {
+  navmods.innerHTML = MODULES.map((m, i) => `<button class="navbtn" data-mod="${m.id}" title="${m.name} (${i + 1})">${m.name}</button>`).join("");
+  mobmenu.innerHTML = MODULES.map(m => `<button class="navbtn" data-mod="${m.id}">${svg(m.icon)}${m.name}</button>`).join("");
+  grid.innerHTML = MODULES.map((m, i) => `<button class="card" data-mod="${m.id}" style="animation-delay:${i * 100}ms"><div class="in"><span class="uses" data-uses="${m.id}"></span><div class="ic">${svg(m.icon)}</div><h3>${m.name}</h3><p>${m.blurb}</p><span class="kb"><kbd>${i + 1}</kbd></span></div></button>`).join("");
+  document.querySelectorAll("[data-mod]").forEach(el => { setVars(el, MOD[el.dataset.mod]); el.addEventListener("click", () => { openModule(el.dataset.mod, true); closeMenu(); }); });
+}
+function refreshNav() {
+  document.querySelectorAll("[data-mod]").forEach(el => el.classList.toggle("active", el.dataset.mod === S.active));
+  document.querySelectorAll("[data-uses]").forEach(el => { const n = S.uses[el.dataset.uses] || 0; el.textContent = n ? `${n} run${n > 1 ? "s" : ""}` : ""; });
+}
+function closeMenu() { mobmenu.classList.remove("open"); $("menuBtn").innerHTML = svg("menu"); $("menuBtn").setAttribute("aria-expanded", "false"); }
+$("menuBtn").addEventListener("click", () => { const o = mobmenu.classList.toggle("open"); $("menuBtn").innerHTML = svg(o ? "x" : "menu"); $("menuBtn").setAttribute("aria-expanded", String(o)); });
+
+function refreshMode() {
+  const on = useClaude();
+  $("modeChip").classList.toggle("on", on);
+  $("modeLbl").textContent = on ? "Claude · own key" : "Offline mode";
+  $("modeChip").title = on ? `Using your API key with ${MODEL}` : "Running local tools — click to add your own API key";
+}
+
+/* ============ UI: panel ============ */
+function openModule(id, scroll, opts = {}) {
+  if (!MOD[id]) return;
+  S.active = id; save("active");
+  renderPanel();
+  refreshNav();
+  if (!opts.keepHash) setHash(id);
+  if (scroll) requestAnimationFrame(() => panel.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" }));
+}
+function setHash(id, q) {
+  const h = "#" + id + (q ? "?q=" + encodeURIComponent(q) : "");
+  try { history.replaceState(null, "", h); } catch (e) {}
+}
+
+function renderPanel() {
+  const m = MOD[S.active];
+  setVars(panel, m);
+  panel.style.animation = "none"; void panel.offsetWidth; panel.style.animation = "";
+  let body = "";
+  if (m.id === "environmental") body = ecoForm(m);
+  else {
+    const chips = m.id === "summarizer"
+      ? `<div class="chips" role="group" aria-label="Summary length">${[["short", "Short"], ["medium", "2–3 sentences"], ["bullets", "Bullet points"]].map(([k, l]) => `<button class="chip ${S.sumLen === k ? "on" : ""}" data-len="${k}">${l}</button>`).join("")}</div>`
+      : m.id === "creative"
+      ? `<div class="chips" role="group" aria-label="Content type">${[["auto", "✨ Auto"], ["story", "Story"], ["poem", "Poem"], ["haiku", "Haiku"], ["slogan", "Slogans"], ["names", "Names"], ["ideas", "Ideas"]].map(([k, l]) => `<button class="chip ${S.creType === k ? "on" : ""}" data-ctype="${k}">${l}</button>`).join("")}</div>` : "";
+    body = `${chips}
+      <div class="chips" aria-label="Examples">${m.examples.map(e => `<button class="chip ex">${esc(e)}</button>`).join("")}</div>
+      <div class="stack">
+        <div class="tawrap"><textarea id="inp" placeholder="${esc(m.ph)}" style="min-height:${m.tall ? "10rem" : "8rem"}" aria-label="${esc(m.title)} input">${esc(S.drafts[m.id] || "")}</textarea><span class="counter" id="counter"></span></div>
+        <button class="run" id="runBtn">${svg(m.id === "assistant" ? "send" : m.icon)}<span>${m.btn}</span><span class="hint">Ctrl+Enter</span></button>
+        <div id="outWrap"></div>
+      </div>`;
+  }
+  panel.innerHTML = `<div class="box">
+    <div class="ptitle"><span class="pi">${svg(m.icon)}</span><h3>${m.title}</h3>
+      <div class="ptools"><button class="iconbtn" id="clearBtn" title="Clear" aria-label="Clear input">${svg("eraser")}</button><button class="iconbtn" id="shareMod" title="Copy link to this tool" aria-label="Share link">${svg("share")}</button></div></div>
+    <p class="pdesc">${m.desc}</p>
+    ${body}
+    ${m.id === "productivity" ? pomoHTML() : ""}
+    <details class="hist" id="hist"><summary>${svg("history")} History <span id="histN"></span></summary><ul id="histList"></ul></details>
+  </div>`;
+  wirePanel(m);
+  renderHistory();
+  if (S.last[m.id]) showOutput(m, S.last[m.id], true);
+}
+
+function wirePanel(m) {
+  const inp = $("inp");
+  $("shareMod").addEventListener("click", () => {
+    const q = inp ? inp.value.trim() : "";
+    const url = location.href.split("#")[0] + "#" + m.id + (q && q.length < 1500 ? "?q=" + encodeURIComponent(q) : "");
+    copyText(url).then(ok => toast(ok ? "🔗" : "⚠️", ok ? (q ? "Link with your input copied" : "Link to this tool copied") : "Couldn't copy the link"));
+  });
+  $("clearBtn").addEventListener("click", () => {
+    if (inp) { inp.value = ""; inp.dispatchEvent(new Event("input")); inp.focus(); }
+    delete S.last[m.id]; const ow = $("outWrap"); if (ow) ow.innerHTML = "";
+    if (m.id === "environmental") { $("ecoOut").innerHTML = ""; }
+  });
+  if (m.id === "environmental") return wireEco(m);
+  const counter = $("counter");
+  const upd = () => { const w = words(inp.value).length; counter.textContent = inp.value ? `${w} word${w === 1 ? "" : "s"} · ${inp.value.length} chars` : ""; S.drafts[m.id] = inp.value; save("drafts"); };
+  inp.addEventListener("input", upd); upd();
+  inp.addEventListener("keydown", e => { if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) { e.preventDefault(); run(m); } });
+  $("runBtn").addEventListener("click", () => run(m));
+  panel.querySelectorAll(".chip.ex").forEach(c => c.addEventListener("click", () => {
+    const t = c.textContent; inp.value = SAMPLES[t] || t; upd(); run(m);
+  }));
+  panel.querySelectorAll("[data-len]").forEach(c => c.addEventListener("click", () => { S.sumLen = c.dataset.len; save("sumLen"); panel.querySelectorAll("[data-len]").forEach(x => x.classList.toggle("on", x === c)); if (inp.value.trim()) run(m); }));
+  panel.querySelectorAll("[data-ctype]").forEach(c => c.addEventListener("click", () => { S.creType = c.dataset.ctype; save("creType"); panel.querySelectorAll("[data-ctype]").forEach(x => x.classList.toggle("on", x === c)); if (inp.value.trim()) run(m); }));
+  if (m.id === "productivity") wirePomo();
+}
+
+let busy = false;
+async function run(m) {
+  if (busy) return;
+  const inp = $("inp"); const q = inp.value.trim();
+  if (!q) { inp.focus(); inp.animate([{ transform:"translateX(0)" }, { transform:"translateX(-6px)" }, { transform:"translateX(6px)" }, { transform:"translateX(0)" }], { duration: 250 }); toast("✏️", "Type something first — or tap an example"); return; }
+  if (m.id === "summarizer" && splitSentences(q).length < 2 && !useClaude()) { toast("📄", "Paste at least a few sentences to summarize"); return; }
+  busy = true;
+  const btn = $("runBtn"); btn.disabled = true; btn.innerHTML = `<div class="spin"></div>${m.busy}`;
+  const opt = { len: S.sumLen };
+  let res = { mode: "local" };
+  const local = () => {
+    if (m.id === "assistant") return { text: localAssistant(q) };
+    if (m.id === "summarizer") { const r = summarize(q, S.sumLen); return { text: r.text, sum: r }; }
+    if (m.id === "planner") { const p = makePlan(q); return { text: p.text, plan: p.steps, goal: q }; }
+    if (m.id === "creative") return { text: creative(q, S.creType) };
+    if (m.id === "productivity") return { text: prodTips(q) };
+  };
+  if (useClaude()) {
+    try {
+      let prompt = m.prompt(q, opt);
+      if (m.id === "creative" && S.creType !== "auto") prompt = `Write a ${S.creType === "names" ? "list of name ideas" : S.creType === "ideas" ? "list of creative ideas" : S.creType === "slogan" ? "list of slogans" : S.creType} for this prompt: ${q}\n\nKeep it engaging and imaginative, 150-200 words at most.`;
+      const text = await callClaude(prompt, m.max);
+      res = { mode: "claude", text };
+      if (m.id === "summarizer") res.sum = summarize(q, S.sumLen);
+      if (m.id === "planner") { res.plan = stepsFromText(text); res.goal = q; }
+    } catch (e) {
+      res = Object.assign({ mode: "local" }, local(), { error: e.message || "Something went wrong." });
+    }
+  } else {
+    await new Promise(r => setTimeout(r, 350 + Math.random() * 300));
+    res = Object.assign({ mode: "local" }, local());
+  }
+  res.q = q; res.at = Date.now();
+  S.last[m.id] = res;
+  S.uses[m.id] = (S.uses[m.id] || 0) + 1; save("uses");
+  addHistory(m.id, res);
+  busy = false;
+  if (S.active !== m.id) return;
+  btn.disabled = false; btn.innerHTML = `${svg(m.id === "assistant" ? "send" : m.icon)}<span>${m.btn}</span><span class="hint">Ctrl+Enter</span>`;
+  showOutput(m, res);
+  refreshNav();
+  setHash(m.id);
+}
+
+function showOutput(m, res, restoring) {
+  const ow = $("outWrap"); if (!ow) return;
+  const badge = res.mode === "claude" ? `<span class="badge claude" title="Answered by ${MODEL} with your key">Claude · ${MODEL}</span>` : `<span class="badge local" title="Generated on your device by local templates and heuristics — not an AI model">Offline · local ${m.id === "summarizer" ? "extractive summary" : "templates"}</span>`;
+  let extra = "";
+  if (res.sum && m.id === "summarizer") {
+    const st = res.sum.stats;
+    extra += `<div class="stats"><div class="stat"><b>${st.words}</b><span>words</span></div><div class="stat"><b>${st.sentences}</b><span>sentences</span></div><div class="stat"><b>${st.read} min</b><span>reading time</span></div><div class="stat"><b>${res.mode === "local" ? st.saved + "%" : "–"}</b><span>shorter</span></div></div>`;
+  }
+  let kw = res.sum && res.sum.keywords.length ? `<div class="kwrow">${res.sum.keywords.map(k => `<span class="kw">#${esc(k)}</span>`).join("")}</div>` : "";
+  let planHTML = "";
+  if (m.id === "planner" && res.plan && res.plan.length) planHTML = `<div class="extra" id="planBox"></div>`;
+  ow.innerHTML = `<div class="out">
+    ${extra}
+    <div class="outhead"><h4>${m.outTitle} ${badge}</h4>
+      <div class="outtools">
+        ${m.id === "creative" || (m.id === "assistant" && res.mode === "local") || m.id === "productivity" ? `<button class="iconbtn" id="remixBtn" title="Remix / try again" aria-label="Remix">${svg("refresh")}</button>` : ""}
+        <button class="iconbtn" id="copyBtn" title="Copy" aria-label="Copy result">${svg("copy")}</button>
+        <button class="iconbtn" id="dlBtn" title="Download .txt" aria-label="Download as text file">${svg("file")}</button>
+      </div></div>
+    ${m.id === "planner" && planHTML ? "" : `<div class="md">${md(res.text)}</div>`}
+    ${kw}${planHTML}
+    ${res.error ? `<p class="note err">⚠️ ${esc(res.error)} Showing the offline result instead.</p>` : res.mode === "local" && !restoring ? `<p class="note">Made on your device without AI. Want full AI answers? <button class="link" id="noteKey">Use my own API key</button>.</p>` : res.mode === "local" ? `<p class="note">Made on your device without AI. <button class="link" id="noteKey">Use my own API key</button></p>` : ""}
+  </div>`;
+  if (planHTML) renderPlan(res);
+  $("copyBtn").addEventListener("click", e => copyText(plainOut(m, res)).then(ok => { const b = e.currentTarget || $("copyBtn"); if (ok) { b.classList.add("ok"); b.innerHTML = svg("check"); burst(b); setTimeout(() => { b.classList.remove("ok"); b.innerHTML = svg("copy"); }, 2000); toast("📋", "Copied to clipboard"); } else toast("⚠️", "Copy failed — select the text manually"); }));
+  $("dlBtn").addEventListener("click", () => downloadText(`aihub-${m.id}-${new Date().toISOString().slice(0, 10)}.txt`, `${m.title}\n${"=".repeat(m.title.length)}\n\nInput:\n${res.q}\n\n${m.outTitle}:\n${plainOut(m, res)}\n`));
+  const rb = $("remixBtn"); if (rb) rb.addEventListener("click", () => run(m));
+  const nk = $("noteKey"); if (nk) nk.addEventListener("click", openKey);
+}
+const plainOut = (m, res) => m.id === "planner" && res.plan && res.mode === "local" ? res.plan.map((s, i) => `${i + 1}. ${s.t} (${s.dur}) — ${s.d}`).join("\n") : res.text.replace(/\*\*([^*]+)\*\*/g, "$1");
+
+function planKey(goal) { return goal.toLowerCase().replace(/\s+/g, " ").trim().slice(0, 120); }
+function renderPlan(res) {
+  const box = $("planBox"); if (!box) return;
+  const key = planKey(res.goal);
+  const st = S.plans[key] || { done: [], at: Date.now() };
+  const steps = res.plan;
+  const draw = () => {
+    const n = st.done.filter(i => i < steps.length).length, pct = Math.round(n / steps.length * 100);
+    box.innerHTML = `${res.mode === "claude" ? `<div class="md" style="margin-bottom:1rem">${md(res.text.split(/\n/).filter(l => !/^\s*(?:\d+[.)]|[-*•])\s/.test(l)).join("\n"))}</div>` : `<div class="md" style="margin-bottom:.75rem">${md(res.text.split("\n\n")[0])}</div>`}
+      <div class="proglbl"><span>${n} of ${steps.length} steps done</span><span>${pct}%</span></div><div class="prog"><i style="width:${pct}%"></i></div>
+      <ul class="steps">${steps.map((s, i) => `<li class="step ${st.done.includes(i) ? "done" : ""}" data-i="${i}" role="checkbox" aria-checked="${st.done.includes(i)}" tabindex="0"><span class="box2">✓</span><span class="st"><b>${esc(s.t)}</b>${s.d ? `<small>${esc(s.d)}</small>` : ""}</span>${s.dur ? `<span class="tm">${esc(s.dur)}</span>` : ""}</li>`).join("")}</ul>`;
+    box.querySelectorAll(".step").forEach(li => {
+      const tog = () => {
+        const i = +li.dataset.i; const k = st.done.indexOf(i);
+        if (k >= 0) st.done.splice(k, 1); else { st.done.push(i); burst(li.querySelector(".box2")); }
+        S.plans[key] = st; save("plans"); draw();
+        if (st.done.length === steps.length) toast("🎉", "Plan complete — amazing work!");
+      };
+      li.addEventListener("click", tog);
+      li.addEventListener("keydown", e => { if (e.key === " " || e.key === "Enter") { e.preventDefault(); tog(); } });
+    });
+  };
+  draw();
+}
+
+/* ---- eco form ---- */
+function ecoForm(m) {
+  return `<div class="stack">
+    <div class="row2">
+      <div><label class="lbl" for="ecoAct">Activity Type</label><select id="ecoAct">${Object.entries(ECO).map(([k, e]) => `<option value="${k}" ${S.eco.act === k ? "selected" : ""}>${e.label}</option>`).join("")}</select></div>
+      <div><label class="lbl" for="ecoAmt" id="ecoUnit">Amount (${ECO[S.eco.act].unit})</label><input type="number" id="ecoAmt" min="0" step="any" inputmode="decimal" value="${esc(S.eco.amt)}" placeholder="Enter amount"></div>
+    </div>
+    <button class="run" id="runBtn">${svg("leaf")}<span>${m.btn}</span><span class="hint">Enter</span></button>
+    <div id="ecoOut"></div>
+    <div id="ecoLog"></div>
+  </div>`;
+}
+function wireEco(m) {
+  const act = $("ecoAct"), amt = $("ecoAmt");
+  act.addEventListener("change", () => { S.eco.act = act.value; save("eco"); $("ecoUnit").textContent = `Amount (${ECO[act.value].unit})`; });
+  amt.addEventListener("input", () => { S.eco.amt = amt.value; save("eco"); });
+  amt.addEventListener("keydown", e => { if (e.key === "Enter") ecoRun(m); });
+  $("runBtn").addEventListener("click", () => ecoRun(m));
+  renderEcoLog();
+  if (S.last.environmental) showEco(m, S.last.environmental);
+}
+async function ecoRun(m) {
+  if (busy) return;
+  const a = $("ecoAct").value, v = parseFloat($("ecoAmt").value);
+  if (!(v >= 0) || !isFinite(v)) { toast("🔢", "Enter a number of " + ECO[a].unit); $("ecoAmt").focus(); return; }
+  if (v > 1e7) { toast("🤔", "That's a very big number — try something under 10,000,000"); return; }
+  busy = true;
+  const btn = $("runBtn"); btn.disabled = true; btn.innerHTML = `<div class="spin"></div>${m.busy}`;
+  const r = ecoCalc(a, v);
+  const res = { mode: "local", act: a, amt: v, kg: r.kg, text: r.text, q: `${ECO[a].label}: ${v} ${ECO[a].unit}`, at: Date.now() };
+  if (useClaude()) {
+    try {
+      res.ai = await callClaude(`Calculate and explain the environmental impact of ${ECO[a].label.toLowerCase()} for ${v} ${ECO[a].unit}. Provide the carbon footprint estimate and practical suggestions to reduce the impact. Keep it under 200 words.`, m.max);
+      res.mode = "claude";
+    } catch (e) { res.error = e.message; }
+  } else await new Promise(r => setTimeout(r, 300));
+  S.last.environmental = res;
+  S.uses.environmental = (S.uses.environmental || 0) + 1; save("uses");
+  addHistory("environmental", res);
+  busy = false;
+  if (S.active !== "environmental") return;
+  btn.disabled = false; btn.innerHTML = `${svg("leaf")}<span>${m.btn}</span><span class="hint">Enter</span>`;
+  showEco(m, res); refreshNav();
+}
+function showEco(m, res) {
+  const e = ECO[res.act], kg = res.kg;
+  const pct = Math.min(100, kg / DAILY_AVG * 100);
+  const kgStr = kg < 10 ? kg.toFixed(2) : Math.round(kg).toLocaleString();
+  $("ecoOut").innerHTML = `<div class="out">
+    <div class="outhead"><h4>${m.outTitle} <span class="badge local" title="Calculated on your device with published average emission factors">Local calculation</span>${res.mode === "claude" ? `<span class="badge claude">+ Claude tips</span>` : ""}</h4>
+      <div class="outtools"><button class="iconbtn" id="logBtn" title="Add to my footprint log" aria-label="Add to log">${svg("plus")}</button><button class="iconbtn" id="copyBtn" title="Copy" aria-label="Copy result">${svg("copy")}</button><button class="iconbtn" id="dlBtn" title="Download .txt" aria-label="Download">${svg("file")}</button></div></div>
+    <div class="ecobig"><b>${kgStr}</b><span>kg CO₂e · ${e.emoji} ${fmtNum(res.amt)} ${e.unit}</span></div>
+    <div class="equiv">
+      <div class="eq"><span class="e">🌳</span><b>${fmtNum(+(kg / 21.8).toFixed(2))}</b> tree-years to absorb it</div>
+      <div class="eq"><span class="e">📱</span><b>${Math.round(kg / .00822).toLocaleString()}</b> phone charges</div>
+      <div class="eq"><span class="e">🧍</span><b>${(kg / DAILY_AVG * 100).toFixed(0)}%</b> of a US daily footprint</div>
+    </div>
+    <div class="bar"><span>This activity</span><span class="t"><i style="width:${Math.max(1, pct)}%"></i></span><span>${kgStr} kg</span></div>
+    <div class="bar"><span>US daily avg</span><span class="t"><i class="ref" style="width:100%"></i></span><span>${DAILY_AVG} kg</span></div>
+    <div class="md" style="margin-top:1rem"><h5>Ways to reduce it</h5><ul>${shuffle(e.tips).slice(0, 4).map(t => `<li>${esc(t)}</li>`).join("")}</ul></div>
+    ${res.ai ? `<div class="md" style="margin-top:1rem;padding-top:1rem;border-top:1px dashed var(--s700)"><h5>Claude's analysis</h5>${md(res.ai)}</div>` : ""}
+    <p class="note${res.error ? " err" : ""}">${res.error ? "⚠️ " + esc(res.error) + " The local calculation above still works." : `Factor used: ${esc(e.note)}. Estimates use published averages — your real number depends on your car, grid and region.`}</p>
+  </div>`;
+  $("copyBtn").addEventListener("click", ev => copyText(res.text.replace(/\*\*/g, "") + (res.ai ? "\n\n" + res.ai : "")).then(ok => { if (ok) { const b = $("copyBtn"); b.classList.add("ok"); b.innerHTML = svg("check"); burst(b); setTimeout(() => { b.classList.remove("ok"); b.innerHTML = svg("copy"); }, 2000); toast("📋", "Copied to clipboard"); } }));
+  $("dlBtn").addEventListener("click", () => downloadText(`aihub-eco-${new Date().toISOString().slice(0, 10)}.txt`, res.text.replace(/\*\*/g, "") + (res.ai ? "\n\nClaude's analysis:\n" + res.ai : "")));
+  $("logBtn").addEventListener("click", ev => { S.ecoLog.unshift({ act: res.act, amt: res.amt, kg: res.kg, at: Date.now() }); S.ecoLog = S.ecoLog.slice(0, 50); save("ecoLog"); renderEcoLog(); burst(ev.currentTarget); toast("🌱", "Added to your footprint log"); });
+}
+function renderEcoLog() {
+  const box = $("ecoLog"); if (!box) return;
+  if (!S.ecoLog.length) { box.innerHTML = `<p class="muted" style="margin:0">Tip: press <b>+</b> on a result to build a personal footprint log — it's saved on this device.</p>`; return; }
+  const tot = S.ecoLog.reduce((a, r) => a + r.kg, 0);
+  const by = {}; S.ecoLog.forEach(r => by[r.act] = (by[r.act] || 0) + r.kg);
+  const mx = Math.max(...Object.values(by));
+  box.innerHTML = `<div class="out ecolog"><h5><span>🌍 My footprint log · <b style="color:#fff">${tot < 10 ? tot.toFixed(2) : Math.round(tot).toLocaleString()} kg CO₂e</b> total</span><button class="iconbtn" id="clrLog" title="Clear log" aria-label="Clear log">${svg("trash")}</button></h5>
+    ${Object.entries(by).sort((a, b) => b[1] - a[1]).map(([k, v]) => `<div class="bar"><span>${ECO[k].emoji} ${ECO[k].label.split(" ")[0]}</span><span class="t"><i style="width:${Math.max(2, v / mx * 100)}%"></i></span><span>${v < 10 ? v.toFixed(1) : Math.round(v)} kg</span></div>`).join("")}
+    <p class="muted" style="margin:.6rem 0 0">${S.ecoLog.length} entr${S.ecoLog.length === 1 ? "y" : "ies"} · offset ≈ ${Math.ceil(tot / 21.8)} tree-year${Math.ceil(tot / 21.8) === 1 ? "" : "s"}</p></div>`;
+  $("clrLog").addEventListener("click", () => { if (confirm("Clear your footprint log?")) { S.ecoLog = []; save("ecoLog"); renderEcoLog(); } });
+}
+
+/* ---- pomodoro ---- */
+const POMO = { work: 25 * 60, brk: 5 * 60 };
+const P = { mode: "work", left: POMO.work, total: POMO.work, timer: null, endAt: 0 };
+const today = () => new Date().toISOString().slice(0, 10);
+if (S.pomo.day !== today()) { S.pomo = { done: 0, day: today() }; save("pomo"); }
+function pomoHTML() {
+  return `<div class="pomo" id="pomo">
+    <div class="ring"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" stroke="#334155" stroke-width="10" fill="none"/><circle id="pRing" cx="60" cy="60" r="52" stroke="url(#pg)" stroke-width="10" fill="none" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="0"/><defs><linearGradient id="pg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#eab308"/><stop offset="1" stop-color="#fb923c"/></linearGradient></defs></svg><div class="tt"><b id="pTime">25:00</b><span id="pMode">Focus</span></div></div>
+    <div><h4>Pomodoro focus timer</h4><p>25 minutes of focus, 5 minute break. Press <kbd>P</kbd> to start or pause.</p>
+      <div class="pbtns"><button class="pbtn go" id="pStart">${svg("play")}<span>Start</span></button><button class="pbtn" id="pReset">${svg("refresh")}Reset</button><button class="pbtn" id="pSkip">Skip →</button></div>
+      <div class="tomatoes" id="pDone"></div></div></div>`;
+}
+function pomoDraw() {
+  const t = $("pTime"); if (!t) return;
+  const mm = Math.floor(P.left / 60), ss = P.left % 60;
+  t.textContent = `${String(mm).padStart(2, "0")}:${String(ss).padStart(2, "0")}`;
+  $("pMode").textContent = P.mode === "work" ? "Focus" : "Break";
+  $("pRing").setAttribute("stroke-dashoffset", String(326.7 * (1 - P.left / P.total)));
+  $("pStart").innerHTML = P.timer ? `${svg("pause")}<span>Pause</span>` : `${svg("play")}<span>${P.left < P.total ? "Resume" : "Start"}</span>`;
+  $("pDone").textContent = S.pomo.done ? `Today: ${"🍅".repeat(Math.min(S.pomo.done, 12))} ${S.pomo.done} session${S.pomo.done > 1 ? "s" : ""}` : "No sessions yet today — start one!";
+}
+function pomoTick() {
+  P.left = Math.max(0, Math.round((P.endAt - Date.now()) / 1000));
+  if (P.left <= 0) {
+    clearInterval(P.timer); P.timer = null; chime();
+    if (P.mode === "work") { S.pomo.done++; save("pomo"); toast("🍅", "Focus session done — take a 5 minute break!"); P.mode = "brk"; }
+    else { toast("⏰", "Break over — ready for another round?"); P.mode = "work"; }
+    P.total = P.left = POMO[P.mode];
+  }
+  document.title = P.timer ? `${$("pTime") ? $("pTime").textContent : ""} ${P.mode === "work" ? "Focus" : "Break"} · AiHub` : "AiHub — Your AI Toolkit Hub";
+  pomoDraw();
+}
+function pomoToggle() {
+  if (P.timer) { clearInterval(P.timer); P.timer = null; document.title = "AiHub — Your AI Toolkit Hub"; }
+  else { P.endAt = Date.now() + P.left * 1000; P.timer = setInterval(pomoTick, 250); }
+  pomoDraw();
+}
+function wirePomo() {
+  $("pStart").addEventListener("click", pomoToggle);
+  $("pReset").addEventListener("click", () => { clearInterval(P.timer); P.timer = null; P.mode = "work"; P.total = P.left = POMO.work; document.title = "AiHub — Your AI Toolkit Hub"; pomoDraw(); });
+  $("pSkip").addEventListener("click", () => { const was = !!P.timer; clearInterval(P.timer); P.timer = null; P.mode = P.mode === "work" ? "brk" : "work"; P.total = P.left = POMO[P.mode]; if (was) pomoToggle(); pomoDraw(); });
+  pomoDraw();
+}
+let actx;
+function chime() {
+  try {
+    actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+    [660, 880, 1320].forEach((f, i) => { const o = actx.createOscillator(), g = actx.createGain(); o.frequency.value = f; o.type = "sine"; const t = actx.currentTime + i * .18; g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.2, t + .02); g.gain.exponentialRampToValueAtTime(.001, t + .6); o.connect(g).connect(actx.destination); o.start(t); o.stop(t + .65); });
+  } catch (e) {}
+}
+
+/* ---- history ---- */
+function addHistory(id, res) {
+  const list = S.hist[id] || [];
+  const item = { q: res.q, text: res.text, mode: res.mode, at: res.at };
+  if (res.plan) item.plan = res.plan;
+  if (res.goal) item.goal = res.goal;
+  if (res.sum) item.sum = res.sum;
+  if (id === "environmental") Object.assign(item, { act: res.act, amt: res.amt, kg: res.kg, ai: res.ai });
+  S.hist[id] = [item].concat(list.filter(h => h.q !== res.q)).slice(0, 12);
+  save("hist"); renderHistory();
+}
+const ago = t => { const s = (Date.now() - t) / 1000; return s < 60 ? "just now" : s < 3600 ? Math.floor(s / 60) + "m ago" : s < 86400 ? Math.floor(s / 3600) + "h ago" : Math.floor(s / 86400) + "d ago"; };
+function renderHistory() {
+  const ul = $("histList"); if (!ul) return;
+  const list = S.hist[S.active] || [];
+  $("histN").textContent = list.length ? `(${list.length})` : "";
+  $("hist").style.display = list.length ? "" : "none";
+  ul.innerHTML = list.map((h, i) => `<li><button class="h" data-h="${i}" title="${esc(h.q)}">${esc(h.q.slice(0, 120))}</button><time>${ago(h.at)}</time><button class="iconbtn" style="width:1.8rem;height:1.8rem;font-size:.85rem" data-del="${i}" aria-label="Delete">${svg("x")}</button></li>`).join("") + (list.length ? `<li style="justify-content:flex-end;background:none;border:0;padding:0"><button class="btn dng" id="histClr" style="font-size:.78rem;padding:.35rem .7rem">${svg("trash")} Clear history</button></li>` : "");
+  ul.querySelectorAll("[data-h]").forEach(b => b.addEventListener("click", () => {
+    const h = list[+b.dataset.h]; const m = MOD[S.active];
+    S.last[S.active] = h;
+    if (S.active === "environmental") { $("ecoAct").value = h.act; $("ecoAmt").value = h.amt; S.eco = { act: h.act, amt: String(h.amt) }; save("eco"); $("ecoUnit").textContent = `Amount (${ECO[h.act].unit})`; showEco(m, h); }
+    else { $("inp").value = h.q; $("inp").dispatchEvent(new Event("input")); showOutput(m, h, true); }
+    $("outWrap") ? $("outWrap").scrollIntoView({ block: "nearest" }) : null;
+  }));
+  ul.querySelectorAll("[data-del]").forEach(b => b.addEventListener("click", () => { list.splice(+b.dataset.del, 1); S.hist[S.active] = list; save("hist"); renderHistory(); }));
+  const c = $("histClr"); if (c) c.addEventListener("click", () => { S.hist[S.active] = []; save("hist"); renderHistory(); toast("🧹", "History cleared"); });
+}
+
+/* ============ clipboard, download, toast, burst ============ */
+async function copyText(t) {
+  try { if (navigator.clipboard && window.isSecureContext) { await navigator.clipboard.writeText(t); return true; } } catch (e) {}
+  try { const ta = document.createElement("textarea"); ta.value = t; ta.setAttribute("readonly", ""); ta.style.cssText = "position:fixed;opacity:0;top:0"; document.body.appendChild(ta); ta.select(); const ok = document.execCommand("copy"); ta.remove(); return ok; } catch (e) { return false; }
+}
+function downloadText(name, text) {
+  try { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([text], { type: "text/plain" })); a.download = name; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500); toast("💾", "Saved " + name); } catch (e) { toast("⚠️", "Download failed"); }
+}
+function toast(icon, msg) {
+  const t = document.createElement("div"); t.className = "toast"; t.innerHTML = `<span>${icon}</span><span>${esc(msg)}</span>`;
+  $("toasts").appendChild(t);
+  setTimeout(() => { t.classList.add("out"); setTimeout(() => t.remove(), 300); }, 2400);
+}
+function burst(el) {
+  if (!el || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const r = el.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+  const sym = ["✦", "✧", "•", "✶"], cols = [MOD[S.active].a, MOD[S.active].b, "#fff"];
+  for (let i = 0; i < 10; i++) { const s = document.createElement("span"); s.className = "burst"; s.textContent = pick(sym); s.style.color = pick(cols); s.style.left = cx + "px"; s.style.top = cy + "px"; const ang = Math.random() * Math.PI * 2, d = 24 + Math.random() * 30; s.style.setProperty("--dx", Math.cos(ang) * d + "px"); s.style.setProperty("--dy", Math.sin(ang) * d + "px"); document.body.appendChild(s); setTimeout(() => s.remove(), 850); }
+}
+
+/* ============ modals ============ */
+const ov = $("ov"), modal = $("modal");
+let lastFocus = null;
+function openModal(html, cls) {
+  lastFocus = document.activeElement;
+  modal.className = "modal " + (cls || "");
+  modal.innerHTML = `<button class="iconbtn x" id="mClose" aria-label="Close">${svg("x")}</button>` + html;
+  ov.classList.add("show");
+  $("mClose").addEventListener("click", closeModal);
+  const f = modal.querySelector("input,button:not(.x)"); if (f) f.focus();
+}
+function closeModal() { ov.classList.remove("show"); modal.innerHTML = ""; if (lastFocus && lastFocus.focus) lastFocus.focus(); }
+ov.addEventListener("click", e => { if (e.target === ov) closeModal(); });
+
+function openKey() {
+  const k = getKey();
+  openModal(`<h3>${svg("key")} Use my own API key</h3>
+    <p>AiHub works offline with local tools. For full AI answers, paste your own <b>Anthropic API key</b>. Requests go straight from your browser to <code style="font-family:var(--mono);font-size:.85em">api.anthropic.com</code> using <b>${MODEL}</b>.</p>
+    <label class="lbl" for="keyInp">API key</label>
+    <div class="keyrow"><input type="password" id="keyInp" placeholder="sk-ant-…" autocomplete="off" spellcheck="false" value="${esc(k)}"><button class="btn" id="keyShow" title="Show / hide" aria-label="Show or hide key">${svg("eye")}</button></div>
+    <label class="switch"><input type="checkbox" id="keyUse" ${store.get("useKey", true) ? "checked" : ""}> Use Claude when a key is saved</label>
+    <div class="btnrow"><button class="btn pri" id="keySave">${svg("check")} Save</button><button class="btn" id="keyTest">${svg("zap")} Test key</button>${k ? `<button class="btn dng" id="keyDel">${svg("trash")} Remove key</button>` : ""}</div>
+    <div class="keystatus" id="keyStatus">${k ? "A key is saved on this device." : "No key saved — offline mode is active."}</div>
+    <div class="warnbox">🔒 Your key is stored <b>only in this browser's localStorage</b> and sent <b>only to the official Anthropic API</b>. It is never put in links or history. Anyone using this browser profile could read it, so use a key with a spend limit and remove it on shared computers.</div>`);
+  const inp = $("keyInp"), st = $("keyStatus");
+  const setSt = (msg, cls) => { st.textContent = msg; st.className = "keystatus " + (cls || ""); };
+  $("keyShow").addEventListener("click", () => { inp.type = inp.type === "password" ? "text" : "password"; });
+  $("keySave").addEventListener("click", () => {
+    const v = inp.value.trim();
+    if (v && !/^sk-ant-/.test(v)) { setSt("That doesn't look like an Anthropic key (they start with sk-ant-). Saved anyway — use Test to check.", "bad"); }
+    if (v) store.set("apiKey", v); else store.del("apiKey");
+    store.set("useKey", $("keyUse").checked);
+    refreshMode();
+    if (!v || /^sk-ant-/.test(v)) { toast(v ? "🔑" : "📴", v ? "Key saved — Claude mode " + ($("keyUse").checked ? "on" : "off") : "Key removed — offline mode"); closeModal(); }
+  });
+  $("keyUse").addEventListener("change", () => { store.set("useKey", $("keyUse").checked); refreshMode(); });
+  $("keyTest").addEventListener("click", async () => {
+    const v = inp.value.trim(); if (!v) return setSt("Paste a key first.", "bad");
+    setSt("Testing…");
+    try { await callClaude("Reply with the single word: ok", 5, v); setSt(`✓ Key works with ${MODEL}.`, "ok"); }
+    catch (e) { setSt("✗ " + e.message, "bad"); }
+  });
+  const d = $("keyDel"); if (d) d.addEventListener("click", () => { store.del("apiKey"); refreshMode(); toast("📴", "Key removed — offline mode"); closeModal(); });
+}
+
+let deferredInstall = null;
+addEventListener("beforeinstallprompt", e => { e.preventDefault(); deferredInstall = e; });
+const APK = "https://github.com/jaineil32624/AiHub/releases/latest/download/AiHub.apk";
+function openGetApp() {
+  openModal(`<h3>${svg("download")} Get AiHub</h3><div class="dlgrid">
+    <a class="dl" href="${APK}"><span class="e">🤖</span><b>Android</b><small>Download AiHub.apk</small></a>
+    <button class="dl" id="pwaBtn"><span class="e">💻</span><b>Install app</b><small>Chrome / Edge — works offline</small></button>
+    <div class="dl"><span class="e">🍎</span><b>iPhone / iPad</b><small>Safari → Share → Add to Home Screen</small></div>
+    <a class="dl" href="https://github.com/jaineil32624/AiHub/releases/latest" target="_blank" rel="noopener"><span class="e">📦</span><b>All downloads</b><small>APK + offline web zip</small></a></div>
+    <p class="muted" style="margin-top:1rem">All six tools work offline once installed. No account, no ads — your history stays on your device.</p>`);
+  $("pwaBtn").addEventListener("click", async () => {
+    if (deferredInstall) { deferredInstall.prompt(); try { await deferredInstall.userChoice; } catch (e) {} deferredInstall = null; closeModal(); }
+    else if (matchMedia("(display-mode: standalone)").matches) toast("✅", "AiHub is already installed");
+    else toast("💡", "Use your browser menu → Install app / Add to Home screen");
+  });
+}
+function openHelp() {
+  openModal(`<h3>${svg("help")} Shortcuts & tips</h3><div class="keys">
+    <div><kbd>1</kbd>–<kbd>6</kbd><span>Switch tool</span></div>
+    <div><kbd>Ctrl</kbd>+<kbd>K</kbd> or <kbd>/</kbd><span>Search tools & actions</span></div>
+    <div><kbd>Ctrl</kbd>+<kbd>Enter</kbd><span>Run the current tool</span></div>
+    <div><kbd>E</kbd><span>Focus the input box</span></div>
+    <div><kbd>P</kbd><span>Start / pause Pomodoro (Productivity)</span></div>
+    <div><kbd>K</kbd><span>API key settings</span></div>
+    <div><kbd>?</kbd><span>This help</span></div>
+    <div><kbd>Esc</kbd><span>Close dialogs</span></div></div>
+    <p class="muted" style="margin-top:1rem">🟡 <b>Offline</b> badges mean the result was made on your device with templates and heuristics. 🟢 <b>Claude</b> badges mean your own API key was used. Share buttons copy a link that reopens the tool with your input.</p>`);
+}
+
+/* ---- command palette ---- */
+function openPalette() {
+  const items = MODULES.map((m, i) => ({ label: m.name, sub: m.blurb, icon: m.icon, a: m.a, b: m.b, k: String(i + 1), run: () => openModule(m.id, true) }))
+    .concat(MODULES.filter(m => m.examples).flatMap(m => m.examples.slice(0, 3).map(e => ({ label: e, sub: m.name, icon: m.icon, a: m.a, b: m.b, run: () => { openModule(m.id, true); const inp = $("inp"); inp.value = SAMPLES[e] || e; inp.dispatchEvent(new Event("input")); run(m); } }))))
+    .concat([
+      { label: "Use my own API key", sub: "Settings", icon: "key", k: "K", run: openKey },
+      { label: "Get the app", sub: "Android APK · install · iPhone", icon: "download", run: openGetApp },
+      { label: "Keyboard shortcuts", sub: "Help", icon: "help", k: "?", run: openHelp },
+      { label: "Start Pomodoro timer", sub: "Productivity", icon: "play", a: "#eab308", b: "#fb923c", run: () => { openModule("productivity", false); if (!P.timer) pomoToggle(); $("pomo").scrollIntoView({ block: "center" }); } }
+    ]);
+  openModal(`<div class="sbox">${svg("search")}<input type="text" id="palInp" placeholder="Search tools, examples and actions…" aria-label="Search"></div><ul id="palList" role="listbox"></ul>`, "pal");
+  const inp = $("palInp"), ul = $("palList");
+  let sel = 0, shown = [];
+  const draw = () => {
+    const q = inp.value.toLowerCase().trim();
+    shown = items.filter(it => !q || (it.label + " " + it.sub).toLowerCase().includes(q)).slice(0, 12);
+    sel = Math.min(sel, Math.max(0, shown.length - 1));
+    ul.innerHTML = shown.length ? shown.map((it, i) => `<li class="${i === sel ? "sel" : ""}" data-i="${i}" role="option" style="--a:${it.a || "#475569"};--b:${it.b || "#334155"}"><span class="pic">${svg(it.icon)}</span><span>${esc(it.label)}<br><small style="margin:0;color:var(--s500)">${esc(it.sub)}</small></span>${it.k ? `<small><kbd>${it.k}</kbd></small>` : ""}</li>`).join("") : `<li class="empty">No matches</li>`;
+    ul.querySelectorAll("li[data-i]").forEach(li => { li.addEventListener("click", () => go(+li.dataset.i)); li.addEventListener("mousemove", () => { if (sel !== +li.dataset.i) { sel = +li.dataset.i; ul.querySelectorAll("li").forEach((x, j) => x.classList.toggle("sel", j === sel)); } }); });
+  };
+  const go = i => { const it = shown[i]; if (!it) return; closeModal(); it.run(); };
+  inp.addEventListener("input", () => { sel = 0; draw(); });
+  inp.addEventListener("keydown", e => {
+    if (e.key === "ArrowDown") { e.preventDefault(); sel = Math.min(sel + 1, shown.length - 1); draw(); ul.querySelector(".sel") && ul.querySelector(".sel").scrollIntoView({ block: "nearest" }); }
+    else if (e.key === "ArrowUp") { e.preventDefault(); sel = Math.max(sel - 1, 0); draw(); ul.querySelector(".sel") && ul.querySelector(".sel").scrollIntoView({ block: "nearest" }); }
+    else if (e.key === "Enter") { e.preventDefault(); go(sel); }
+  });
+  draw();
+}
+
+/* ============ global wiring ============ */
+$("brand").addEventListener("click", e => { e.preventDefault(); scrollTo({ top: 0, behavior: "smooth" }); });
+$("modeChip").addEventListener("click", openKey);
+$("keyBtn").addEventListener("click", openKey);
+$("ctaKey").addEventListener("click", openKey);
+$("getAppBtn").addEventListener("click", openGetApp);
+$("fGet").addEventListener("click", openGetApp);
+$("helpBtn").addEventListener("click", openHelp);
+$("fHelp").addEventListener("click", openHelp);
+$("palBtn").addEventListener("click", openPalette);
+$("ctaPal").addEventListener("click", openPalette);
+$("ctaStart").addEventListener("click", () => { openModule("assistant", true); setTimeout(() => $("inp") && $("inp").focus({ preventScroll: true }), 400); });
+
+document.addEventListener("keydown", e => {
+  const open = ov.classList.contains("show");
+  if (e.key === "Escape") { if (open) closeModal(); else closeMenu(); return; }
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") { e.preventDefault(); if (open) closeModal(); openPalette(); return; }
+  if (open) {
+    if (e.key === "Tab") { const f = [...modal.querySelectorAll("button,input,a[href],select,textarea")].filter(x => !x.disabled && x.offsetParent !== null); if (f.length) { const i = f.indexOf(document.activeElement); if (e.shiftKey && i <= 0) { e.preventDefault(); f[f.length - 1].focus(); } else if (!e.shiftKey && i === f.length - 1) { e.preventDefault(); f[0].focus(); } } }
+    return;
+  }
+  const tag = (document.activeElement && document.activeElement.tagName) || "";
+  if (/INPUT|TEXTAREA|SELECT/.test(tag) || e.ctrlKey || e.metaKey || e.altKey) return;
+  if (/^[1-6]$/.test(e.key)) { openModule(MODULES[+e.key - 1].id, true); return; }
+  if (e.key === "/") { e.preventDefault(); openPalette(); return; }
+  if (e.key === "?") { openHelp(); return; }
+  const k = e.key.toLowerCase();
+  if (k === "k") return openKey();
+  if (k === "e") { const i = $("inp") || $("ecoAmt"); if (i) { e.preventDefault(); i.focus(); } return; }
+  if (k === "p" && S.active === "productivity") { pomoToggle(); return; }
+});
+
+/* parallax (rAF throttled) */
+let ticking = false;
+addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { $("parallax").style.transform = `translateY(${scrollY * .5}px)`; ticking = false; }); } }, { passive: true });
+
+/* deep links: #planner or #planner?q=... */
+function readHash() {
+  const h = decodeURIComponent(location.hash.slice(1));
+  if (!h) return false;
+  const [id, qs] = h.split("?");
+  if (!MOD[id]) return false;
+  const q = qs && qs.startsWith("q=") ? qs.slice(2) : "";
+  openModule(id, false, { keepHash: true });
+  if (q && $("inp")) { $("inp").value = q; $("inp").dispatchEvent(new Event("input")); run(MOD[id]); setTimeout(() => panel.scrollIntoView({ block: "start" }), 50); }
+  else if (location.hash) setTimeout(() => panel.scrollIntoView({ block: "start" }), 50);
+  return true;
+}
+addEventListener("hashchange", readHash);
+
+hydrateIcons(document);
+buildNav();
+refreshMode();
+if (!readHash()) openModule(S.active, false, { keepHash: true });
+refreshNav();
+if (!store.get("onboarded", false)) { store.set("onboarded", true); setTimeout(() => toast("💡", "Tip: press 1–6 to switch tools, Ctrl+K to search"), 1500); }
+if ("serviceWorker" in navigator && location.protocol === "https:") navigator.serviceWorker.register("sw.js").catch(() => {});
+window.AiHub = { localAssistant, summarize, makePlan, ecoCalc, creative, prodTips, evalMath, md, stepsFromText };
+})();
+</script>
+</body>
+</html>
